@@ -1,0 +1,532 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LaTeX2e style article file ASO Spijker
+%
+% Usage: 
+%	\RequirePackage[]{spijkerarticle}
+%
+% Options:
+%
+%	proefwerk :	page header proefwerken.
+%	test :		page header testen.
+%	practicum :	page header practica.
+%	logo :		show logo on default header.
+%	dubbelzijdig :	adapt layout for two-sided printing (defaults to false).
+%	show :		make the answerbox readable (defaults to false).
+%	print :		printable layout with reduced colours (defaults to false).
+%
+%
+% Dependencies: spijker.png
+%
+% version 0.1 - 16 september 2022: initial version by Pieter Smets
+% version 0.2 - 16 september 2022: update by Pieter Smets
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{spijkerarticle}
+
+\NeedsTeXFormat{LaTeX2e}
+\def\filedate{2022/09/19}
+\def\fileversion{v0.2}
+
+\RequirePackage{kvoptions}
+\RequirePackage{ifthen}
+\RequirePackage{etoolbox}
+
+\SetupKeyvalOptions{
+  family=spijkerarticle,
+  prefix=spijkerarticle@
+}
+
+% user options
+\DeclareBoolOption[false]{proefwerk}
+\DeclareBoolOption[false]{test}
+\DeclareBoolOption[false]{practicum}
+\DeclareBoolOption[false]{logo}
+
+\DeclareBoolOption[false]{wiskunde}
+\DeclareBoolOption[false]{fysica}
+
+\DeclareStringOption[standaard]{hoofding}
+\DeclareStringOption[]{vak}
+
+\DeclareBoolOption[false]{dubbelzijdig}
+\DeclareComplementaryOption{enkelzijdig}{dubbelzijdig}
+
+\DeclareBoolOption[true]{hide}
+\DeclareComplementaryOption{show}{hide}
+
+\DeclareBoolOption[true]{screen}
+\DeclareComplementaryOption{print}{screen}
+
+% internals
+\DeclareBoolOption[false]{baseline}
+\DeclareBoolOption[true]{titellijn}
+
+% process options
+\ProcessKeyvalOptions*\relax
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% preamble
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% font
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{lmodern}
+
+% language
+\RequirePackage[dutch]{babel}
+\selectlanguage{dutch}
+%\hyphenchar\font=-1	% Geen hyphenation
+
+% geometry
+\RequirePackage{calc}
+\ifspijkerarticle@dubbelzijdig
+  \RequirePackage[left=2.2cm, right=1.4cm, top=1.3cm, bottom=2.5cm, twoside]{geometry}
+\else
+  \RequirePackage[left=1.8cm, right=1.8cm, top=1.3cm, bottom=2.5cm]{geometry}
+\fi
+
+\RequirePackage[usenames,dvipsnames]{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{tabularx}
+\RequirePackage{multicol, multirow}
+\RequirePackage{eurosym}
+\RequirePackage[inline]{enumitem}
+\RequirePackage[framemethod=tikz]{mdframed}
+\RequirePackage[hidelinks]{hyperref}
+\RequirePackage{environ}
+%\RequirePackage{fontawesome5}
+\RequirePackage{subcaption}
+
+\RequirePackage{lastpage}
+\RequirePackage{fancyhdr}
+\RequirePackage[]{titlesec}
+\RequirePackage{listings}
+
+% TikZ PGFplots
+\RequirePackage{pgfplots}
+\RequirePackage{pgfplotstable}
+\pgfplotsset{compat = newest}
+
+% Math
+\RequirePackage{amsmath,amssymb,amsthm}
+\RequirePackage{arydshln}
+\RequirePackage{nicematrix}
+\RequirePackage{tensor}
+\RequirePackage{cancel}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define some colours
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{lightgray}{gray}{0.8}
+
+\ifspijkerarticle@screen
+  \definecolor{spijker-blauw}{RGB}{0,171,200}
+  \definecolor{spijker-geel}{RGB}{255,213,77}
+  \definecolor{spijker-rood}{RGB}{228,102,88}
+  \definecolor{spijker-lichtrood}{RGB}{246,176,135}
+\else
+  \definecolor{spijker-blauw}{gray}{.00}
+  \definecolor{spijker-geel}{gray}{0.70}
+  \definecolor{spijker-rood}{gray}{0.30}
+  \definecolor{spijker-lichtrood}{gray}{0.50}
+\fi
+\colorlet{spijker-donkerblauw}{spijker-blauw!85!black}
+\colorlet{spijker-donkergeel}{spijker-geel!85!black}
+\colorlet{spijker-donkerrood}{spijker-rood!85!black}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define some functions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand\error[2]{\PackageError{spijkerarticle}{#1}{#2}\@ehc}
+\newcommand\warning[1]{\PackageWarning{spijkerarticle}{#1}}
+\newcommand\info[1]{\PackageInfo{spijkerarticle}{#1}}
+
+\newcommand\inputerror[1]{\error{Geen \noexpand#1 gegeven}{Definieer \noexpand#1{...} in de preamble}}
+\newcommand\inputrequired[2]{\ifthenelse{\equal{#1}{}}{\inputerror{#2}}}
+
+\newcommand\toelichtingTestWiskunde{%
+  \textsl{Grafisch rekentoestel toegelaten, formulebladen niet toegelaten. Noteer overal duidelijk je \textbf{werkwijze}. Laat zien wat je antwoord is en trek onder elke oefening een lijn over de volledige breedte van je blad.}
+}
+
+\newcommand\toelichtingProefwerkWiskunde{%
+  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm] %
+    \item[--] Gebruik van je GRM is enkel toegelaten \textbf{ter controle} tenzij anders vermeld. %
+    \item[--] Los alle vragen algebra\"isch op en geef het exacte antwoord (bv. in een breuk) tenzij anders gevraagd. %
+    \item[--] Wees volledig:  noteer altijd je \textbf{tussenstappen}, %
+              \textbf{enkel een uitkomst is \underline{niet} voldoende}. %
+    \item[--] \textbf{Markeer} je eindresultaat of antwoord. %
+    \item[--] Schrijf \textbf{leesbaar} (nooit met potlood of in rood) en werk overzichtelijk en net. %
+  \end{itemize}}%
+}
+
+\newcommand\toelichtingTestFysica{%
+  \textsl{Grafisch rekentoestel toegelaten, formulebladen niet toegelaten. Noteer overal duidelijk je \textbf{werkwijze} en laat zien wat je antwoord is. Let op de beduidende cijfers en noteer steeds de correcte eenheid.}
+}
+
+\newcommand\toelichtingProefwerkFysica{%
+  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm] %
+    \item[--] Wees volledig: noteer altijd je tussenstappen, \textbf{enkel een uitkomst is \underline{niet} voldoende}.
+    \item[--] Schrijf \textbf{leesbaar} (nooit met potlood of in rood) en werk gestructureerd en ordelijk.
+    \item[--] \textbf{Markeer} je eindresultaat of antwoord.
+    \item[--] Let op de beduidende cijfers en noteer steeds de correcte eenheid.
+  \end{itemize}}%
+}
+
+\newcommand\toelichtingSucces{%
+  \hfill\textbf{Veel~succes!!}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define some variables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand\leerkracht[1]{\renewcommand\@leerkracht{#1}}
+\newcommand\@leerkracht{}
+
+\newcommand\vak[1]{\renewcommand\@vak{#1}}
+\newcommand\@vak{}
+
+\newcommand\module[1]{\renewcommand\@module{#1}}
+\newcommand\@module{}
+
+\newcommand\voornaam[1]{\renewcommand\@voornaam{#1}}
+\newcommand\@voornaam{}
+
+\newcommand\naam[1]{\renewcommand\@naam{#1}}
+\newcommand\@naam{}
+
+\newcommand\klas[1]{\renewcommand\@klas{#1}}
+\newcommand\@klas{}
+
+\newcommand\titel[1]{\renewcommand\@titel{#1}}
+\newcommand\@titel{}
+
+\newcommand\cijfer[1]{\renewcommand\@cijfer{#1}}
+\newcommand\@cijfer{}
+
+\newcommand\hulpmiddelen[1]{\renewcommand\@hulpmiddelen{#1}}
+\newcommand\@hulpmiddelen{grafisch rekentoestel en \textbf{bijgevoegd} formularium}
+
+\newcommand\datum[1]{\renewcommand\@datum{#1}}
+\newcommand\@datum{\today}
+
+\newcommand\baseline[1]{\renewcommand\@baseline{#1}}
+\newcommand\@baseline{\ifthenelse{\equal{\@vak}{}}{goesting}{barst~van~\@vak}}
+
+\newcommand\toelichting[1]{\renewcommand\@toelichting{#1}}
+\newcommand\@toelichting{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% short-cuts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ifspijkerarticle@wiskunde
+  \renewcommand\@vak{Wiskunde}
+  \renewcommand\@baseline{barst~van~wiskunde}
+  \ifspijkerarticle@proefwerk
+    \renewcommand\@toelichting{\toelichtingProefwerkWiskunde \hfill \toelichtingSucces}
+  \fi
+  \ifspijkerarticle@test
+    \renewcommand\@toelichting{\toelichtingTestWiskunde}
+  \fi
+\fi
+\ifspijkerarticle@fysica
+  \renewcommand\@vak{Fysica}
+  \renewcommand\@baseline{barst~van~wetenschap}
+  \ifspijkerarticle@proefwerk
+    \renewcommand\@toelichting{\toelichtingProefwerkFysica \hfill \toelichtingSucces}
+  \fi
+  \ifspijkerarticle@test
+    \renewcommand\@toelichting{\toelichtingTestFysica}
+  \fi
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength\parindent{0pt}
+
+\lstset{
+  basicstyle=\ttfamily,
+  keywordstyle=\color{spijker-blauw},
+  commentstyle=\color{gray},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  backgroundcolor=\color{lightlightgray},
+  frame=none,
+  tabsize=2,
+  captionpos=t,
+  breaklines=true,
+  breakatwhitespace=false,
+  showspaces=false,
+  showtabs=false,  
+  columns=flexible,
+  morekeywords={__global__,__device__},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fancy head/foot
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\pagenumbering{arabic}
+
+\fancyhf{} % clear all header and footer fields
+%\fancyfoot[C]{\footnotesize{\thepage}\,/\,\pageref{LastPage}}
+\ifspijkerarticle@dubbelzijdig
+  \fancyfoot[LE,RO]{\scriptsize{\textsf{p.~\thepage~van~\pageref{LastPage}}}}
+\else
+  \fancyfoot[R]{\scriptsize{\textsf{p.~\thepage~van~\pageref{LastPage}}}}
+\fi
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Headers 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+
+\newcommand\headerlogo[1]{%
+  { \centering %
+    \smallskip %
+    \includegraphics[{#1}]{spijker-klein.png}\\\vspace*{-.4em} %
+    \resizebox{\linewidth}{!}{\color{spijker-blauw}\sffamily\textbf{\lowercase\expandafter{\@baseline}}}%
+    \smallskip %
+  } %
+}
+
+\newcommand\headerlln{%
+  \smallskip \textsf{Voornaam:~\ifthenelse{\equal{\@voornaam}{}}{\dotfill}{\dotfill\textbf{\@voornaam}\dotfill}}\medskip\newline%
+  {Naam:~\ifthenelse{\equal{\@naam}{}}{\dotfill}{\hspace{4.05ex}\dotfill\textbf{\@naam}\dotfill}}\medskip\newline%
+  {Nr:~\ldots\ldots\qquad{Klas:~\ifspijkerarticle@test\ifthenelse{\equal{\@klas}{}}{\dotfill}{\dotfill\textbf{\@klas}\dotfill}\else\dotfill\fi}}%
+}
+
+\newcommand\headercijfer{%
+  \ldots \slash\ifthenelse{\equal{\@cijfer}{}}{\ldots}{\,\@cijfer}%
+}
+
+\newcommand\headerproefwerk{%
+  % check
+  \inputrequired{\@vak}{\vak}
+  \inputrequired{\@leerkracht}{\leerkracht}
+  \inputrequired{\@klas}{\klas}
+  \inputrequired{\@datum}{\datum}
+  %
+  \spijkerarticle@titellijnfalse %
+  \begingroup%
+  \renewcommand*{\arraystretch}{1.5}%
+  \begin{tabularx}{\textwidth}{ |>{\centering\arraybackslash}m{3cm}%
+                                |>{\centering\arraybackslash}m{5cm}%
+                                |>{\arraybackslash}X %
+                                |>{\centering\arraybackslash}m{1.5cm} | }%
+    \hline%
+    \headerlogo{width=\linewidth}%
+    &%
+      {\centering %
+        \textbf{\Large\@vak} \\%
+        \textit{\footnotesize \@leerkracht} \\%
+        {\normalsize \@klas} \\%
+        {\normalsize \@datum} %
+      } %
+    & \headerlln %
+    & {\large \headercijfer}%
+    \\%
+    \hline%
+  \end{tabularx} \\[-.5ex]%
+  \begin{tabularx}{\textwidth}{ |>{\arraybackslash}X %
+                                |>{\centering\arraybackslash}m{1.5cm} | }%
+    \multicolumn{2}{|l|}{Toegestane hulpmiddelen: \@hulpmiddelen} \\%
+    \hline%
+    Zet een kruisje hiernaast wanneer de leerling het nodige materiaal NIET bij heeft & \\%
+    \hline%
+    Wanneer was je klaar met je proefwerk? & \\%
+    \hline%
+  \end{tabularx}%
+  \endgroup
+}
+
+\newcommand\headertest{%
+  % check
+  \inputrequired{\@vak}{\vak}
+  %
+  \spijkerarticle@titellijnfalse %
+  \begingroup%
+  \renewcommand*{\arraystretch}{1.4}%
+  \begin{tabularx}{\textwidth}{ |>{\centering\arraybackslash}m{3cm}%
+                                |>{\centering\arraybackslash}m{5cm}%
+                                |>{\arraybackslash}X %
+                                |>{\centering\arraybackslash}m{1.5cm} | }%
+    \hline %
+    \headerlogo{width=\linewidth} %
+    & %
+      {\centering %
+        \smallskip \textbf{\Large\@vak} \\%
+        \ifthenelse{\equal{\@module}{}\and\equal{\@leerkracht}{}}{%
+          \bigskip %
+        }{
+          \ifthenelse{\equal{\@module}{}\or\equal{\@leerkracht}{}}{%
+            \smallskip %
+            \ifthenelse{\equal{\@module}{}}{}{\@module \\ [1.85ex]}%
+            \ifthenelse{\equal{\@leerkracht}{}}{}{\@leerkracht \\ [1.85ex]}%
+          }{\@module \\ \@leerkracht \\}%
+        }%
+        \ifthenelse{\equal{\@datum}{}}{Datum: \ldots / \ldots / \ldots\ldots}{\@datum}%
+      }%
+    & \headerlln %
+    & {\large \headercijfer}%
+    \\%
+    \hline% 
+  \end{tabularx}%
+  \endgroup 
+%
+}
+
+\newcommand\headerpracticum{%
+  \spijkerarticle@titellijnfalse %
+  \begingroup
+  \renewcommand*{\arraystretch}{1}
+  \begin{tabularx}{\textwidth}{ |>{\centering\arraybackslash}m{3cm} % 
+                                | >{\centering\arraybackslash}X %
+                                | >{\centering\arraybackslash} m{1.5cm} | }%
+    \hline %
+    \headerlogo{width=\linewidth} %
+    & %
+      {\centering %
+        {\textbf{\Large{\@vak}} \ifthenelse{\equal{\@module}{}}{}{\Large~$|$~\@module}}%
+        \ifthenelse{\equal{\@leerkracht}{}}{}{\\\smallskip\textsf{\@leerkracht}} %
+      } %
+    & %
+      {\large \ldots \slash\ifthenelse{\equal{\@cijfer}{}}{\ldots}{\,\@cijfer}}%
+    \\ %
+    \hline % 
+  \end{tabularx}%
+  \endgroup
+}
+
+\newcommand\headerdefault{%
+  \ifspijkerarticle@logo
+    \includegraphics[height=1.2cm]{spijker-klein.png} \smallskip \\
+  \fi
+  {\small%
+    {\ifthenelse{\equal{\@vak}{}}{}{\textbf{\@vak}~$|$~}\ifthenelse{\equal{\@module}{}}{}{{\@module}~$|$~}\@leerkracht}%
+    \hfill%
+    {\@datum}%
+  }%
+  \vspace{-.6em}%
+  \par\noindent\rule{\textwidth}{1.2pt}%
+  \vspace{-.8em}%
+}
+
+\makeatletter
+\renewcommand{\maketitle}{%
+  { \sffamily %
+    \ifspijkerarticle@proefwerk
+      \headerproefwerk%
+      \\ [.5em]{\rmfamily \small \@toelichting}%
+    \else
+      \ifspijkerarticle@test
+        \headertest%
+        \\ [.5em]{\rmfamily \small \@toelichting}
+      \else
+        \ifspijkerarticle@practicum
+          \headerpracticum%
+        \else
+          \headerdefault%
+        \fi
+      \fi
+    \fi
+    \bigskip
+    \ifthenelse{\equal{\@titel}{}}{}{%
+      \begin{center}\textbf{\LARGE{\@titel}}\end{center}\smallskip %
+      \ifspijkerarticle@titellijn %
+          \vspace{-.8em}\par\noindent\rule{\textwidth}{1.2pt}\medskip %
+      \fi %
+    }%
+  }%
+}%
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title formatting
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\RequirePackage[explicit]{titlesec}
+%\titleformat\section
+%  [block]
+%  {\normalfont\large\bfseries\sffamily}
+%  {\thesection}% no label
+%  {1em}
+%  {\textcolor{spijker-blauw}#1}
+
+\titleformat*{\section}{\normalfont\Large\bfseries\sffamily}
+\titleformat*{\subsection}{\normalfont\large\bfseries\sffamily}
+\titleformat*{\subsubsection}{\normalfont\normalsize\bfseries\sffamily}
+\titleformat*{\paragraph}{\normalfont\normalsize\bfseries\sffamily}
+\titleformat*{\subparagraph}{\normalfont\normalsize\bfseries\sffamily}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Captions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareCaptionFormat{custom}
+{%
+    \small
+    \vspace{.1em}\noindent\rule{\textwidth}{0.4pt}
+    \textbf{#1#2}\textit{\small #3}\vspace{-.4em}%
+    \noindent\rule{\textwidth}{0.4pt}
+    \vspace{-2em}
+}
+\captionsetup{format=custom}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Answerbox
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mdfdefinestyle{ans}{
+    linecolor=black,
+    %backgroundcolor=gray!10,
+}
+\newtheoremstyle{theoremdd}% name of the style to be used
+    {.5\topsep}% measure of space to leave above the theorem. E.g.: 3pt
+    {.5\topsep}% measure of space to leave below the theorem. E.g.: 3pt
+    {\footnotesize}% name of font to use in the body of the theorem
+    {0pt}% measure of space to indent
+    {\bfseries}% name of head font
+    {\,:\,}% punctuation between head and body
+    { }% space after theorem head; " " = normal interword space
+    {\thmname{#1}\thmnumber{ #2}\textnormal{\thmnote{ (#3)}}}
+
+\theoremstyle{theoremdd}
+
+\newtheorem*{theorem_answers}{Antwoorden}
+\surroundwithmdframed[style=ans]{theorem_answers}
+
+\makeatletter
+\NewEnviron{answers}{%
+    \noindent%
+    \ifspijkerarticle@hide
+        \rotatebox[origin=c]{180}{%\scalebox{1}[-1]{%
+        \noindent%
+    \fi
+    \begin{minipage}[t]{\linewidth}
+        \begin{theorem_answers}
+            \BODY
+        \end{theorem_answers}%
+    \end{minipage}%
+    \ifspijkerarticle@hide
+        }%}%
+    \fi
+}%
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Math
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\der{\mathrm{d}}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lvert#1\rvert}
