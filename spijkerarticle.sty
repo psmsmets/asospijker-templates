@@ -17,8 +17,9 @@
 %
 % Dependencies: spijker.png
 %
-% version 0.1 - 16 september 2022: initial version by Pieter Smets
-% version 0.2 - 16 september 2022: update by Pieter Smets
+% version 0.1.0 - 16 september 2022: initial version by Pieter Smets
+% version 0.1.1 - 19 september 2022: update by Pieter Smets
+% version 0.1.2 - 20 september 2022: update by Pieter Smets
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -26,8 +27,14 @@
 \ProvidesPackage{spijkerarticle}
 
 \NeedsTeXFormat{LaTeX2e}
-\def\filedate{2022/09/19}
-\def\fileversion{v0.2}
+\def\filedate{2022/09/20}
+\def\fileversion{v0.1.2}
+
+\typeout{*********************************************************************}
+\typeout{spijkerarticle LaTeX2e Package}
+\typeout{     versie : \fileversion}
+\typeout{     datum  : \filedate}
+\typeout{*********************************************************************}
 
 \RequirePackage{kvoptions}
 \RequirePackage{ifthen}
@@ -128,14 +135,18 @@
   \definecolor{spijker-geel}{RGB}{255,213,77}
   \definecolor{spijker-rood}{RGB}{228,102,88}
   \definecolor{spijker-lichtrood}{RGB}{246,176,135}
+  \def\spijkerlogo{spijker-klein.png}
 \else
-  \definecolor{spijker-blauw}{gray}{.00}
+  \definecolor{spijker-blauw}{gray}{0.00}
   \definecolor{spijker-geel}{gray}{0.70}
   \definecolor{spijker-rood}{gray}{0.30}
   \definecolor{spijker-lichtrood}{gray}{0.50}
+  \def\spijkerlogo{spijker-klein-zw.png}
 \fi
 \colorlet{spijker-donkerblauw}{spijker-blauw!85!black}
+\colorlet{spijker-lichtblauw}{spijker-blauw!85!white}
 \colorlet{spijker-donkergeel}{spijker-geel!85!black}
+\colorlet{spijker-lichtgeel}{spijker-geel!85!white}
 \colorlet{spijker-donkerrood}{spijker-rood!85!black}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -145,7 +156,6 @@
 \newcommand\error[2]{\PackageError{spijkerarticle}{#1}{#2}\@ehc}
 \newcommand\warning[1]{\PackageWarning{spijkerarticle}{#1}}
 \newcommand\info[1]{\PackageInfo{spijkerarticle}{#1}}
-
 \newcommand\inputerror[1]{\error{Geen \noexpand#1 gegeven}{Definieer \noexpand#1{...} in de preamble}}
 \newcommand\inputrequired[2]{\ifthenelse{\equal{#1}{}}{\inputerror{#2}}}
 
@@ -209,17 +219,17 @@
 \newcommand\cijfer[1]{\renewcommand\@cijfer{#1}}
 \newcommand\@cijfer{}
 
-\newcommand\hulpmiddelen[1]{\renewcommand\@hulpmiddelen{#1}}
-\newcommand\@hulpmiddelen{grafisch rekentoestel en \textbf{bijgevoegd} formularium}
-
 \newcommand\datum[1]{\renewcommand\@datum{#1}}
 \newcommand\@datum{\today}
 
-\newcommand\baseline[1]{\renewcommand\@baseline{#1}}
-\newcommand\@baseline{\ifthenelse{\equal{\@vak}{}}{goesting}{barst~van~\@vak}}
+\newcommand\hulpmiddelen[1]{\renewcommand\@hulpmiddelen{#1}}
+\newcommand\@hulpmiddelen{grafisch rekentoestel en \textbf{bijgevoegd} formularium}
 
 \newcommand\toelichting[1]{\renewcommand\@toelichting{#1}}
 \newcommand\@toelichting{}
+
+\newcommand\baseline[1]{\renewcommand\@baseline{#1}}
+\newcommand\@baseline{\ifthenelse{\equal{\@vak}{}}{goesting}{barst~van~\@vak}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % short-cuts
@@ -296,7 +306,7 @@
 \newcommand\headerlogo[1]{%
   { \centering %
     \smallskip %
-    \includegraphics[{#1}]{spijker-klein.png}\\\vspace*{-.4em} %
+    \includegraphics[{#1}]{\spijkerlogo}\\\vspace*{-.4em} %
     \resizebox{\linewidth}{!}{\color{spijker-blauw}\sffamily\textbf{\lowercase\expandafter{\@baseline}}}%
     \smallskip %
   } %
@@ -318,6 +328,7 @@
   \inputrequired{\@leerkracht}{\leerkracht}
   \inputrequired{\@klas}{\klas}
   \inputrequired{\@datum}{\datum}
+  \inputrequired{\@hulpmiddelen}{\hulpmiddelen}
   %
   \spijkerarticle@titellijnfalse %
   \begingroup%
@@ -389,6 +400,9 @@
 }
 
 \newcommand\headerpracticum{%
+  % check
+  \inputrequired{\@vak}{\vak}
+  %
   \spijkerarticle@titellijnfalse %
   \begingroup
   \renewcommand*{\arraystretch}{1}
@@ -411,6 +425,9 @@
 }
 
 \newcommand\headerdefault{%
+  % check
+  \inputrequired{\@titel}{\titel}
+  %
   \ifspijkerarticle@logo
     \includegraphics[height=1.2cm]{spijker-klein.png} \smallskip \\
   \fi
