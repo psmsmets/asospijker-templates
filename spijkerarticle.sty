@@ -98,13 +98,13 @@
 \RequirePackage[usenames,dvipsnames]{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{tabularx}
-\RequirePackage{multicol, multirow}
+\RequirePackage{multicol}
+\RequirePackage{multirow}
 \RequirePackage{eurosym}
 \RequirePackage[inline]{enumitem}
 \RequirePackage[framemethod=tikz]{mdframed}
 \RequirePackage[hidelinks]{hyperref}
 \RequirePackage{environ}
-%\RequirePackage{fontawesome5}
 \RequirePackage{subcaption}
 
 \RequirePackage{lastpage}
@@ -493,15 +493,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Captions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareCaptionFormat{custom}
+\DeclareCaptionFormat{maincaption}
 {%
     \small
-    \vspace{.1em}\noindent\rule{\textwidth}{0.4pt}
+    \vspace{.1em}\noindent\rule{\linewidth}{0.4pt}
     \textbf{#1#2}\textit{\small #3}\vspace{-.4em}%
-    \noindent\rule{\textwidth}{0.4pt}
+    \noindent\rule{\linewidth}{0.4pt}
     \vspace{-2em}
 }
-\captionsetup{format=custom}
+\DeclareCaptionFormat{subcaption}
+{%
+    \small
+    \textbf{#1#2}\textit{\small #3}\vspace{-.4em}%
+}
+\captionsetup{format=maincaption}
+\captionsetup[sub]{format=subcaption}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Answerbox
