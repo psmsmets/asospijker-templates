@@ -66,24 +66,17 @@ Extra varianten
  * 15% donkerder: `spijker-donkerblauw`, `spijker-donkergeel`, `spijker-donkerrood`
  * 15% lichter: `spijker-lichtblauw`, `spijker-lichtgeel`
  
- ## Voorbeeld
+## Voorbeeld
 ```
 \documentclass[11pt, a4paper]{article}
 
-\usepackage[wiskunde, test]{spijkerarticle}
+\usepackage[fysica, test]{spijkerarticle}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\vak{Wiskunde}
 \module{Test}
 \titel{Thema 1}
 \leerkracht{P. Smets}
-%\datum{}
-%\klas{}
 \cijfer{20}
-%\voornaam{}
-%\naam{}
-%\baseline{barst van wiskunde}
-%\toelichting{eigen uitleg over de test}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
