@@ -32,15 +32,28 @@
 
 \mode<presentation>{}
 
-\RequirePackage{xcolor}
+% font
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{lmodern}
+
+% language
+\RequirePackage[dutch]{babel}
+\selectlanguage{dutch}
+%\hyphenchar\font=-1	% Geen hyphenation
+
+\RequirePackage[usenames,dvipsnames]{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{grffile}
-\RequirePackage[latin1]{inputenc}
-\RequirePackage{tikz}
-\RequirePackage[dutch]{babel}
 \RequirePackage{appendixnumberbeamer}
-\RequirePackage{hyperref}
-\RequirePackage{fontawesome5}
+\RequirePackage[hidelinks]{hyperref}
+
+% TikZ PGFplots
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage{pgfplotstable}
+\pgfplotsset{compat = newest}
+\usetikzlibrary{calc,babel,arrows.meta}
 
 \usetheme{}
 
@@ -169,15 +182,4 @@
         {\ifthenelse{\equal{\insertsubsection}{}}{}{{\color{spijker-blauw}\hspace{2ex}$\rhd$\hspace{1.5ex}\it\insertsubsection}}}\hfill%
         \insertframenumber{}\,/\,\inserttotalframenumber%
     \end{beamercolorbox}}%
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% https://github.com/cgnieder/bohr/
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{bohr}
-
-\setbohr{%
-  nucleus-options-set={draw=spijker-rood,thick,fill=spijker-lichtrood,opacity=.5},%
-  electron-options-set={fill=spijker-geel},%
-  shell-options-set={draw=lightgray,thin},%
 }
