@@ -28,8 +28,8 @@ Alle bovenstaande package-opties herdefiniëren de `\maketitle` functie.
 
 | Syntax | Omschrijving |
 | -------| ------------ |
-| `fysica` | Aangepaste control squences per hoofding voor het vak wiskunde. Baseline wordt `barst van wiskunde`. |
-| `wiskunde` | Aangepaste control squences per hoofding voor het vak fysica. Baseline wordt `barst van wetenschappen`. |
+| `fysica` | Aangepaste control squences per hoofding voor het vak fysica. Baseline wordt `barst van wetenschappen`. |
+| `wiskunde` | Aangepaste control squences per hoofding voor het vak wiskunde. Baseline wordt `barst van wiskunde`. |
 
 Voorgedefiniëerde control sequences kunnen nog steeds aangepast worden.
 
