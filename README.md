@@ -57,10 +57,10 @@ v = verplicht, o = optioneel, - = niet getoond
 
 | Syntax | RGB | grijswaarde |
 | ----------- | ----------- | ----------- |
-| `spijker-blauw` | {0,171,200} | {0.00} |
-| `spijker-geel` | {255,213,77} | {0.70} |
+| `spijker-blauw` | {0,171,200} | {0.10} |
+| `spijker-geel` | {255,213,77} | {0.80} |
 | `spijker-rood` | {228,102,88} | {0.30} |
-| `spijker-lichtrood` | {246,176,135} | {0.50} |
+| `spijker-lichtrood` | {246,176,135} | {0.60} |
 
 Extra varianten
  * 15% donkerder: `spijker-donkerblauw`, `spijker-donkergeel`, `spijker-donkerrood`
