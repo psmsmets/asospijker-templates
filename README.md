@@ -2,7 +2,10 @@
 
 ASO Spijker LaTeX templates
 
-## Package-opties
+* `spijkerarticle`
+* `spijkerbeamer`
+
+## spijkerarticle opties
 
 ### Types hoofding voor `\maketitle`
 
@@ -66,7 +69,7 @@ Extra varianten
  * 15% donkerder: `spijker-donkerblauw`, `spijker-donkergeel`, `spijker-donkerrood`
  * 15% lichter: `spijker-lichtblauw`, `spijker-lichtgeel`
  
-## Voorbeeld
+### spijkerarticle voorbeeld
 ```
 \documentclass[11pt, a4paper]{article}
 
@@ -82,6 +85,33 @@ Extra varianten
 \begin{document}
 
 \maketitle
+
+\end{document}
+```
+
+## spijkerbeamer
+
+### Algemene opties
+
+| Syntax | Omschrijving |
+| ------ | ------------ |
+| `print` | Veranderen kleuren in grijswaarden (niet bij afbeeldingen). Standaard is `screen`.  |
+
+### spijkerarticle voorbeeld
+
+```
+\documentclass[aspectratio=1610,slides,compressed]{beamer}
+
+\usepackage[print]{spijkerbeamer}
+
+\title{}
+\subtitle[]{}
+\author{}
+\date{}
+
+\begin{document}
+
+\titleslide
 
 \end{document}
 ```
