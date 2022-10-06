@@ -141,7 +141,6 @@
   \RequirePackage{eurosym}
   \RequirePackage[inline]{enumitem}
   \RequirePackage[framemethod=tikz]{mdframed}
-  \RequirePackage[hidelinks]{hyperref}
   \RequirePackage{environ}
   \RequirePackage{subcaption}
   \RequirePackage{lastpage}
@@ -149,6 +148,7 @@
  % \RequirePackage{soul}
   \RequirePackage[]{titlesec}
   \RequirePackage{listings}
+  \RequirePackage[hidelinks]{hyperref} % put at the end
 }
 
 \ifbool{asospijker@beamer}
@@ -172,6 +172,7 @@
 \RequirePackage{nicematrix}
 \RequirePackage{tensor}
 \RequirePackage{cancel}
+%%\RequirePackage{arydshln} % AVOID!! Messses up vertical lines in tabulars!!
 
 % ==========================================================================
 % colors

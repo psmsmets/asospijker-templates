@@ -1,8 +1,8 @@
 # asospijker-templates
 
-ASO Spijker LaTeX templates for article and beamers
+ASO Spijker LaTeX templates for article and beamers.
 
-Documentation is available in Dutch only.
+Documentation and syntax are in Dutch.
 
 ## Algemeen
 
