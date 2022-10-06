@@ -107,7 +107,7 @@ De antwoordbox is leesbaar met de optie `show` en omgedraaid met de optie `hide`
 ```
 \documentclass[11pt, a4paper]{article}
 
-\usepackage[fysica, test]{spijkerarticle}
+\usepackage[fysica, test]{asospijker}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \module{Test}
