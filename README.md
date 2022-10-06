@@ -1,11 +1,25 @@
-# spijker-tex
+# asospijker-templates
 
-ASO Spijker LaTeX templates
+ASO Spijker LaTeX templates for article and beamers
 
-* `spijkerarticle`
-* `spijkerbeamer`
+Documentation is available in Dutch only.
 
-## spijkerarticle opties
+## Algemeen
+
+### Huisstijl kleuren
+
+| Syntax | RGB | grijswaarde |
+| ----------- | ----------- | ----------- |
+| `spijker-blauw` | {0,171,200} | {0.10} |
+| `spijker-geel` | {255,213,77} | {0.80} |
+| `spijker-rood` | {228,102,88} | {0.30} |
+| `spijker-lichtrood` | {246,176,135} | {0.60} |
+
+Extra varianten
+ * 15% donkerder: `spijker-donkerblauw`, `spijker-donkergeel`, `spijker-donkerrood`
+ * 15% lichter: `spijker-lichtblauw`, `spijker-lichtgeel`
+
+## documentclass = article
 
 ### Types hoofding voor `\maketitle`
 
@@ -13,6 +27,7 @@ ASO Spijker LaTeX templates
 | ----------- | ----------- |
 | `proefwerk` | Hoofding voor proefwerken. |
 | `test` | Hoofding voor testen. |
+| `taak` | Hoofding voor taken en remediëringsoefeningen. |
 | `practicum` | Hoofding voor practica. |
 | `logo` | _standaard hoofding_ met Spijker logo bovenaan. |
 |        | _geen van bovenstaande opties geeft een standaard document hoofding_ |
@@ -25,7 +40,7 @@ Alle bovenstaande package-opties herdefiniëren de `\maketitle` functie.
 | ------ | ------------ |
 | `dubbelzijdig` | Asymmetrische marges voor dubbelzijdig printen en inbinden.  |
 | `print` | Veranderen kleuren in grijswaarden (niet bij afbeeldingen). Standaard is `screen`.  |
-| `show` | Maak de `answerbox` onderaan het document leesbaar. Standaard is `hide`. |
+| `show` | Maak de `antwoorden` onderaan het document leesbaar. Standaard is `hide`. |
 
 ### Voorgedefiniëerde vakken
 
@@ -56,20 +71,39 @@ Alle mogelijke control sequences voor de verschillende hoofdingen. Niet alle com
 
 v = verplicht, o = optioneel, - = niet getoond
 
-### Huisstijl kleuren
+### Enviroments
 
-| Syntax | RGB | grijswaarde |
-| ----------- | ----------- | ----------- |
-| `spijker-blauw` | {0,171,200} | {0.10} |
-| `spijker-geel` | {255,213,77} | {0.80} |
-| `spijker-rood` | {228,102,88} | {0.30} |
-| `spijker-lichtrood` | {246,176,135} | {0.60} |
+#### antwoord en antwoord*
+Genereer een antwoordveld in `Spijker-blauw` startend met `Antwoord: `:
+```
+\begin{antwoord}
+   ...
+\end{antwoord}
+```
 
-Extra varianten
- * 15% donkerder: `spijker-donkerblauw`, `spijker-donkergeel`, `spijker-donkerrood`
- * 15% lichter: `spijker-lichtblauw`, `spijker-lichtgeel`
+of een antwoordveld in `Spijker-blauw` zonder annotatie,
+```
+\begin{antwoord*}
+   ...
+\end{antwoord*}
+```
+
+#### antwoorden
+Geneer een antwoordenbox, bijvoorbeeld voor onderaan je document, met de oplossingen van de oefeningen. Werk met `\label{vraag...}` in je `enumerate` van de opgaven.
+
+De antwoordbox is leesbaar met de optie `show` en omgedraaid met de optie `hide`.
+
+```
+\begin{antwoorden}
+    \begin{itemize*}
+        \item[] \textbf{[\ref{vraag1}]} antwoord 1
+        \item[] \textbf{[\ref{vraag2}]} antwoord 2
+        \item[] \textbf{[\ref{vraag3}]} antwoord 3
+    \end{itemize*}
+\end{antwoorden}
+```
  
-### spijkerarticle voorbeeld
+### Voorbeeld
 ```
 \documentclass[11pt, a4paper]{article}
 
@@ -89,7 +123,9 @@ Extra varianten
 \end{document}
 ```
 
-## spijkerbeamer
+## documentclass = beamer
+
+Deze template is nog in ontwikkeling.
 
 ### Algemene opties
 
@@ -97,12 +133,12 @@ Extra varianten
 | ------ | ------------ |
 | `print` | Veranderen kleuren in grijswaarden (niet bij afbeeldingen). Standaard is `screen`.  |
 
-### spijkerarticle voorbeeld
+### Voorbeeld
 
 ```
 \documentclass[aspectratio=1610,slides,compressed]{beamer}
 
-\usepackage[print]{spijkerbeamer}
+\usepackage[print]{asospijker}
 
 \title{}
 \subtitle[]{}

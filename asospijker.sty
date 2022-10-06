@@ -1,0 +1,827 @@
+% --------------------------------------------------------------------------
+% the ASOSPIJKER package
+% 
+%   ASO Spijker LaTeX article and beamer template
+% 
+% --------------------------------------------------------------------------
+% Pieter Smets
+% Web:    https://github.com/psmsmets/asospijker-templates
+% E-Mail: mail@pietersmets.be
+% --------------------------------------------------------------------------
+% Copyright 2022 Pieter Smets
+% 
+% This work may be distributed and/or modified under the
+% conditions of the MIT LICENSE.
+% 
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Pieter Smets.
+% --------------------------------------------------------------------------
+% If you have any ideas, questions, suggestions or bugs to report, please
+% feel free to contact me.
+% --------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+
+\newcommand*\@asospijker@date{2022/09/22}
+\newcommand*\@asospijker@version{v0.1a}
+\newcommand*\@asospijker@description{ASO Spijker LaTeX article and beamer template}
+
+\ProvidesPackage{asospijker}[\@asospijker@date\space \@asospijker@version\space \@asospijker@description]
+
+\typeout{*********************************************************************}
+\typeout{asospijker LaTeX2e Package}
+\typeout{     version : \@asospijker@version}
+\typeout{     date    : \@asospijker@date}
+\typeout{*********************************************************************}
+
+% ==========================================================================
+% message handling
+% ==========================================================================
+\RequirePackage{etoolbox}
+
+\newcommand*\@asospijker@error@message{%
+  For details have a look at the `asospijker-templates' manual.%
+}
+
+\newrobustcmd*\@asospijker@error[1]{\PackageError{asospijker}{#1}{#1 \@asospijker@error@message}}
+\newrobustcmd*\@asospijker@warning[1]{\PackageWarning{asospijker}{#1}}
+\newrobustcmd*\@asospijker@warningnoline[1]{\PackageWarningNoLine{asospijker}{#1}}
+\newrobustcmd*\@asospijker@info[1]{\PackageInfo{asospijker}{#1}}
+\newrobustcmd*\@asospijker@inputerror[1]{\@asospijker@error{Geen \noexpand#1 gegeven.}}
+\newrobustcmd*\@asospijker@inputrequired[2]{\ifthenelse{\equal{#1}{}}{\@asospijker@inputerror{#2}}}
+
+% ==========================================================================
+% class loaded
+% ==========================================================================
+\newbool{asospijker@article}
+\newbool{asospijker@beamer}
+
+\@ifclassloaded{article}{\asospijker@articletrue}{}%
+\@ifclassloaded{beamer}{\asospijker@beamertrue}{}%
+
+\ifboolexpr
+  {
+    not bool {asospijker@article} and
+    not bool {asospijker@beamer}
+  }{%
+    \@asospijker@error{%
+      Only article and beamer classes can be used with the asospijker-templates package%
+    }%
+  }{}%
+
+% ==========================================================================
+% options
+% ==========================================================================
+\RequirePackage{kvoptions}
+\RequirePackage{ifthen}
+
+\SetupKeyvalOptions{
+  family=asospijker,
+  prefix=asospijker@
+}
+
+\ifbool{asospijker@article}
+{%
+  % user options
+  \DeclareBoolOption[false]{proefwerk}
+  \DeclareBoolOption[false]{test}
+  \DeclareBoolOption[false]{practicum}
+  \DeclareBoolOption[false]{taak}
+  \DeclareBoolOption[false]{logo}
+
+  \DeclareBoolOption[false]{wiskunde}
+  \DeclareBoolOption[false]{fysica}
+
+%  \DeclareStringOption[standaard]{hoofding}
+%  \DeclareStringOption[]{vak}
+
+  \DeclareBoolOption[true]{noindent}
+  \DeclareComplementaryOption{indent}{noindent}
+
+  \DeclareBoolOption[false]{dubbelzijdig}
+  \DeclareComplementaryOption{enkelzijdig}{dubbelzijdig}
+}
+
+
+\DeclareBoolOption[true]{hide}
+\DeclareComplementaryOption{show}{hide}
+
+\DeclareBoolOption[true]{screen}
+\DeclareComplementaryOption{print}{screen}
+
+% process options
+\ProcessKeyvalOptions*\relax
+
+% ==========================================================================
+% requirements 
+% ==========================================================================
+% font
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{lmodern}
+
+% language
+\RequirePackage[dutch]{babel}
+\selectlanguage{dutch}
+
+\ifbool{asospijker@article}
+{%
+  %\RequirePackage{calc}
+  \ifasospijker@dubbelzijdig
+    \RequirePackage[left=2.2cm, right=1.4cm, top=1.3cm, bottom=2.5cm, twoside]{geometry}
+  \else
+    \RequirePackage[left=1.8cm, right=1.8cm, top=1.3cm, bottom=2.5cm]{geometry}
+  \fi
+  \RequirePackage[usenames,dvipsnames]{xcolor}
+  \RequirePackage{graphicx}
+  \RequirePackage[export]{adjustbox}
+  \RequirePackage{tabularx}
+  \RequirePackage{multicol}
+  \RequirePackage{multirow}
+  \RequirePackage{eurosym}
+  \RequirePackage[inline]{enumitem}
+  \RequirePackage[framemethod=tikz]{mdframed}
+  \RequirePackage[hidelinks]{hyperref}
+  \RequirePackage{environ}
+  \RequirePackage{subcaption}
+  \RequirePackage{lastpage}
+  \RequirePackage{fancyhdr}
+ % \RequirePackage{soul}
+  \RequirePackage[]{titlesec}
+  \RequirePackage{listings}
+}
+
+\ifbool{asospijker@beamer}
+{%
+  \RequirePackage{xcolor}
+  \RequirePackage{graphicx}
+  \RequirePackage{grffile}
+  \RequirePackage{appendixnumberbeamer}
+  \RequirePackage{hyperref}
+}
+
+% TikZ PGFplots
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage{pgfplotstable}
+\pgfplotsset{compat = newest}
+\usetikzlibrary{calc,babel,arrows.meta,decorations.pathreplacing,decorations.markings}
+
+% Math
+\RequirePackage{amsmath,amssymb,amsthm}
+\RequirePackage{nicematrix}
+\RequirePackage{tensor}
+\RequirePackage{cancel}
+
+% ==========================================================================
+% colors
+% ==========================================================================
+\definecolor{lightgray}{gray}{0.8}
+
+\ifasospijker@screen
+  \definecolor{spijker-blauw}{RGB}{0,171,200}
+  \definecolor{spijker-geel}{RGB}{255,213,77}
+  \definecolor{spijker-rood}{RGB}{228,102,88}
+  \definecolor{spijker-lichtrood}{RGB}{246,176,135}
+  \def\spijkerlogo{asospijker-logo.png}
+\else
+  \definecolor{spijker-blauw}{gray}{0.10}
+  \definecolor{spijker-geel}{gray}{0.80}
+  \definecolor{spijker-rood}{gray}{0.30}
+  \definecolor{spijker-lichtrood}{gray}{0.60}
+  \def\spijkerlogo{asospijker-logo-print.png}
+\fi
+\colorlet{spijker-donkerblauw}{spijker-blauw!85!black}
+\colorlet{spijker-lichtblauw}{spijker-blauw!25!white}
+\colorlet{spijker-donkergeel}{spijker-geel!85!black}
+\colorlet{spijker-lichtgeel}{spijker-geel!25!white}
+\colorlet{spijker-donkerrood}{spijker-rood!85!black}
+
+% ==========================================================================
+% asospijker article class
+% ==========================================================================
+\ifbool{asospijker@article}
+{
+
+% --------------------------------------------------------------------------
+% article variables
+\newcommand\toelichtingTestWiskunde{%
+  \textsl{Grafisch rekentoestel toegelaten, formulebladen niet toegelaten. Noteer overal duidelijk je \textbf{werkwijze}. Laat zien wat je antwoord is en trek onder elke oefening een lijn over de volledige breedte van je blad.}
+}
+
+\newcommand\toelichtingTaakWiskunde{%
+  \textsl{Maak deze oefeningen altijd \textbf{op een apart blad}. Noteer overal duidelijk je \textbf{werkwijze}. Laat zien wat je antwoord is en trek onder elke oefening een lijn over de volledige breedte van je blad.}
+}
+
+\newcommand\toelichtingProefwerkWiskunde{%
+  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm] %
+    \item[--] Gebruik van je GRM is enkel toegelaten \textbf{ter controle} tenzij anders vermeld. %
+    \item[--] Los alle vragen algebra\"isch op en geef het exacte antwoord (bv. in een breuk) tenzij anders gevraagd. %
+    \item[--] Wees volledig:  noteer altijd je \textbf{tussenstappen}, %
+              \textbf{enkel een uitkomst is \underline{niet} voldoende}. %
+    \item[--] \textbf{Markeer} je eindresultaat of antwoord. %
+    \item[--] Schrijf \textbf{leesbaar} (nooit met potlood of in rood) en werk overzichtelijk en net. %
+  \end{itemize}\vspace{-.5em}}%
+}
+
+\newcommand\toelichtingTestFysica{%
+  \textsl{Grafisch rekentoestel toegelaten, formulebladen niet toegelaten. Noteer overal duidelijk je \textbf{werkwijze} en laat zien wat je antwoord is. Let op de beduidende cijfers en noteer steeds de correcte eenheid.}
+}
+
+\newcommand\toelichtingTaakFysica{%
+  \textsl{Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \textbf{gepaste structuur (gegeven - gevraagd - oplossing)}. Let op de beduidende cijfers en noteer steeds de correcte eenheid. Trek onder elke oefening een lijn over de volledige breedte van je blad.}
+}
+
+\newcommand\toelichtingProefwerkFysica{%
+  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm] %
+    \item[--] Wees volledig: noteer altijd je tussenstappen, \textbf{enkel een uitkomst is \underline{niet} voldoende}. %
+    \item[--] Schrijf \textbf{leesbaar} (nooit met potlood of in rood) en werk gestructureerd en ordelijk. %
+    \item[--] \textbf{Markeer} je eindresultaat of antwoord. %
+    \item[--] Let op de beduidende cijfers en noteer steeds de correcte eenheid. %
+  \end{itemize}}%
+}
+
+\newcommand\toelichtingSucces{%
+  \vspace{-.45em}{\hfill\textbf{Veel~succes!!}} \vspace{-.45em}%
+}
+
+\newcommand\leerkracht[1]{\renewcommand\@leerkracht{#1}}
+\newcommand\@leerkracht{}
+
+\newcommand\vak[1]{\renewcommand\@vak{#1}}
+\newcommand\@vak{}
+
+\newcommand\module[1]{\renewcommand\@module{#1}}
+\newcommand\@module{}
+
+\newcommand\voornaam[1]{\renewcommand\@voornaam{#1}}
+\newcommand\@voornaam{}
+
+\newcommand\naam[1]{\renewcommand\@naam{#1}}
+\newcommand\@naam{}
+
+\newcommand\klas[1]{\renewcommand\@klas{#1}}
+\newcommand\@klas{}
+
+\newcommand\titel[1]{\renewcommand\@titel{#1}}
+\newcommand\@titel{}
+
+\newcommand\cijfer[1]{\renewcommand\@cijfer{#1}}
+\newcommand\@cijfer{}
+
+\newcommand\datum[1]{\renewcommand\@datum{#1}}
+\newcommand\@datum{}
+
+\newcommand\hulpmiddelen[1]{\renewcommand\@hulpmiddelen{#1}}
+\newcommand\@hulpmiddelen{grafisch rekentoestel en \textbf{bijgevoegd} formularium}
+
+\newcommand\toelichting[1]{\renewcommand\@toelichting{#1}}
+\newcommand\@toelichting{}
+
+\newcommand\baseline[1]{\renewcommand\@baseline{#1}}
+\newcommand\@baseline{\ifthenelse{\equal{\@vak}{}}{goesting}{barst~van~\@vak}}
+
+% --------------------------------------------------------------------------
+% article short-cuts
+\ifasospijker@wiskunde
+  \renewcommand\@vak{Wiskunde}
+  \renewcommand\@baseline{barst~van~wiskunde}
+  \ifasospijker@proefwerk
+    \renewcommand\@toelichting{\toelichtingProefwerkWiskunde \toelichtingSucces}
+  \fi
+  \ifasospijker@test
+    \renewcommand\@toelichting{\toelichtingTestWiskunde}
+  \fi
+  \ifasospijker@taak
+    \renewcommand\@toelichting{\toelichtingTaakWiskunde}
+    \asospijker@testtrue
+  \fi
+\fi
+\ifasospijker@fysica
+  \renewcommand\@vak{Fysica}
+  \renewcommand\@baseline{barst~van~wetenschap}
+  \ifasospijker@proefwerk
+    \renewcommand\@toelichting{\toelichtingProefwerkFysica \toelichtingSucces}
+  \fi
+  \ifasospijker@test
+    \renewcommand\@toelichting{\toelichtingTestFysica}
+  \fi
+  \ifasospijker@taak
+    \renewcommand\@toelichting{\toelichtingTaakFysica}
+    \asospijker@testtrue
+  \fi
+\fi
+
+% --------------------------------------------------------------------------
+% article layout
+\ifasospijker@noindent
+  \setlength\parindent{0pt}
+\fi
+
+\lstset{
+  basicstyle=\ttfamily,
+  keywordstyle=\color{spijker-blauw},
+  commentstyle=\color{gray},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  backgroundcolor=\color{lightlightgray},
+  frame=none,
+  tabsize=2,
+  captionpos=t,
+  breaklines=true,
+  breakatwhitespace=false,
+  showspaces=false,
+  showtabs=false,  
+  columns=flexible,
+  morekeywords={__global__,__device__},
+}
+
+% fancyhdr
+\pagestyle{fancy}
+\pagenumbering{arabic}
+
+\fancyhf{} % clear all header and footer fields
+%\fancyfoot[C]{\footnotesize{\thepage}\,/\,\pageref{LastPage}}
+\ifasospijker@dubbelzijdig
+  \fancyfoot[LE,RO]{\scriptsize{\textsf{p.~\thepage~van~\pageref{LastPage}}}}
+\else
+  \fancyfoot[R]{\scriptsize{\textsf{p.~\thepage~van~\pageref{LastPage}}}}
+\fi
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% --------------------------------------------------------------------------
+% article maketitle headers
+
+\newbool{asospijker@titellijn}
+\asospijker@titellijntrue
+
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+
+\newcommand\headerlogo[1]{%
+  { \centering %
+    \includegraphics[{#1},margin=0pt 1ex 0pt 1ex,valign=m]{\spijkerlogo}\\\vspace*{-.4em} %
+    \resizebox{\linewidth}{!}{\color{spijker-blauw}\sffamily\textbf{\lowercase\expandafter{\@baseline}}}%
+  } %
+}
+
+\newcommand\headerlln{%
+  \smallskip \textsf{Voornaam:~\ifthenelse{\equal{\@voornaam}{}}{\dotfill}{\dotfill\textbf{\@voornaam}\dotfill}}\medskip\newline%
+  {Naam:~\ifthenelse{\equal{\@naam}{}}{\dotfill}{\hspace{4.05ex}\dotfill\textbf{\@naam}\dotfill}}\medskip\newline%
+  {Nr:~\ldots\ldots\qquad{Klas:~\ifasospijker@test\ifthenelse{\equal{\@klas}{}}{\dotfill}{\dotfill\textbf{\@klas}\dotfill}\else\dotfill\fi}}%
+}
+
+\newcommand\headercijfer{%
+  \ldots \slash\ifthenelse{\equal{\@cijfer}{}}{\ldots}{\,\@cijfer}%
+}
+
+\newcommand\headerproefwerk{%
+  % check
+  \@asospijker@inputrequired{\@vak}{\vak}
+  \@asospijker@inputrequired{\@leerkracht}{\leerkracht}
+  \@asospijker@inputrequired{\@klas}{\klas}
+  \@asospijker@inputrequired{\@datum}{\datum}
+  \@asospijker@inputrequired{\@hulpmiddelen}{\hulpmiddelen}
+  %
+  \asospijker@titellijnfalse %
+  \begingroup%
+  \renewcommand*{\arraystretch}{1.5}%
+  \begin{tabularx}{\textwidth}{ |>{\centering\arraybackslash}m{3cm}%
+                                |>{\centering\arraybackslash}m{5cm}%
+                                |>{\arraybackslash}X %
+                                |>{\centering\arraybackslash}m{1.5cm} | }%
+    \hline%
+    \headerlogo{width=\linewidth}%
+    &%
+      {\centering %
+        \textbf{\Large\@vak} \\%
+        \textit{\footnotesize \@leerkracht} \\%
+        {\normalsize \@klas} \\%
+        {\normalsize \@datum} %
+      } %
+    & \headerlln %
+    & {\large \headercijfer}%
+    \\%
+    \hline%
+    \multicolumn{4}{|l|}{Toegestane hulpmiddelen: \@hulpmiddelen} \\%
+    \hline%
+    \multicolumn{3}{|l|}{Zet een kruisje hiernaast wanneer de leerling het nodige materiaal NIET bij heeft} & \\%
+    \hline%
+    \multicolumn{3}{|l|}{Wanneer was je klaar met je proefwerk?} & \\%
+    \hline%
+  \end{tabularx}%
+  \endgroup
+}
+
+\newcommand\headertest{%
+  % check
+  \@asospijker@inputrequired{\@vak}{\vak}
+  %
+  \asospijker@titellijnfalse %
+  \begingroup%
+  \renewcommand*{\arraystretch}{1.4}%
+  \begin{tabularx}{\textwidth}{ |>{\centering\arraybackslash}m{3cm}%
+                                |>{\centering\arraybackslash}m{5cm}%
+                                |>{\arraybackslash}X %
+                                |>{\centering\arraybackslash}m{1.5cm} | }%
+    \hline %
+    \headerlogo{width=\linewidth} %
+    & %
+      {\centering %
+        \smallskip \textbf{\Large\@vak} \\%
+        \ifthenelse{\equal{\@module}{}\and\equal{\@leerkracht}{}}{%
+          \bigskip %
+        }{
+          \ifthenelse{\equal{\@module}{}\or\equal{\@leerkracht}{}}{%
+            \smallskip %
+            \ifthenelse{\equal{\@module}{}}{}{\@module \\ [1.85ex]}%
+            \ifthenelse{\equal{\@leerkracht}{}}{}{\@leerkracht \\ [1.85ex]}%
+          }{\@module \\ \@leerkracht \\}%
+        }%
+        \ifthenelse{\equal{\@datum}{}}{Datum: \ldots / \ldots / \ldots\ldots}{\@datum}%
+      }%
+    & \headerlln %
+    & {\large \headercijfer}%
+    \\%
+    \hline% 
+  \end{tabularx}%
+  \endgroup 
+%
+}
+
+\newcommand\headerpracticum{%
+  % check
+  \@asospijker@inputrequired{\@vak}{\vak}
+  %
+  \asospijker@titellijnfalse %
+  \begingroup
+  \renewcommand*{\arraystretch}{1}
+  \begin{tabularx}{\textwidth}{ |>{\centering\arraybackslash}m{3cm} % 
+                                | >{\centering\arraybackslash}X %
+                                | >{\centering\arraybackslash} m{1.5cm} | }%
+    \hline %
+    \headerlogo{width=\linewidth} %
+    & %
+      {\centering %
+        {\textbf{\Large{\@vak}} \ifthenelse{\equal{\@module}{}}{}{\Large~$|$~\@module}}%
+        \ifthenelse{\equal{\@leerkracht}{}}{}{\\\smallskip\textsf{\@leerkracht}} %
+      } %
+    & %
+      {\large \ldots \slash\ifthenelse{\equal{\@cijfer}{}}{\ldots}{\,\@cijfer}}%
+    \\ %
+    \hline % 
+  \end{tabularx}%
+  \endgroup
+}
+
+\newcommand\headerdefault{%
+  % check
+  \@asospijker@inputrequired{\@titel}{\titel}
+  %
+  \ifasospijker@logo
+    \includegraphics[height=1.2cm]{\spijkerlogo} \smallskip \\
+  \fi
+  {\small%
+    {\ifthenelse{\equal{\@vak}{}}{}{\textbf{\@vak}~$|$~}\ifthenelse{\equal{\@module}{}}{}{{\@module}~$|$~}\@leerkracht}%
+    \hfill%
+    {\@datum}%
+  }%
+  \vspace{-.6em}%
+  \par\noindent\rule{\textwidth}{1.2pt}%
+  \vspace{-.8em}%
+}
+
+\renewcommand{\maketitle}{%
+  \begingroup
+  \setlength\parindent{0pt}
+  { \sffamily %
+    \ifasospijker@proefwerk
+      \headerproefwerk%
+      \\[.5em]{\rmfamily \small \@toelichting}
+    \else
+      \ifasospijker@test
+        \headertest%
+        \\[.5em]{\rmfamily \small \@toelichting}
+      \else
+        \ifasospijker@practicum
+          \headerpracticum%
+        \else
+          \headerdefault%
+        \fi
+      \fi
+    \fi
+    \bigskip
+    \ifthenelse{\equal{\@titel}{}}{}{%
+      \begin{center}\textbf{\LARGE{\@titel}}\end{center}\smallskip %
+      \ifasospijker@titellijn %
+          \vspace{-.8em}\par\noindent\rule{\textwidth}{1.2pt}\bigskip %
+      \fi %
+    }%
+  }%
+  \endgroup
+}%
+
+% --------------------------------------------------------------------------
+% article title formatting
+
+%\RequirePackage[explicit]{titlesec}
+%\titleformat\section
+%  [block]
+%  {\normalfont\large\bfseries\sffamily}
+%  {\thesection}% no label
+%  {1em}
+%  {\textcolor{spijker-blauw}#1}
+
+\titleformat*{\section}{\normalfont\Large\bfseries\sffamily}
+\titleformat*{\subsection}{\normalfont\large\bfseries\sffamily}
+\titleformat*{\subsubsection}{\normalfont\normalsize\bfseries\sffamily}
+\titleformat*{\paragraph}{\normalfont\normalsize\bfseries\sffamily}
+\titleformat*{\subparagraph}{\normalfont\normalsize\bfseries\sffamily}
+
+% --------------------------------------------------------------------------
+% article captions
+\DeclareCaptionFormat{maincaption}
+{%
+    \small
+    \vspace{.1em}\noindent\rule{\linewidth}{0.4pt}
+    \textbf{#1#2}\textit{\small #3}\vspace{-.4em}%
+    \noindent\rule{\linewidth}{0.4pt}
+    \vspace{-2em}
+}
+\DeclareCaptionFormat{subcaption}
+{%
+    \small
+    \textbf{#1#2}\textit{\small #3}\vspace{-.4em}%
+}
+\captionsetup{format=maincaption}
+\captionsetup[sub]{format=subcaption}
+
+% --------------------------------------------------------------------------
+% article oplossing
+\NewEnviron{antwoord}{%
+    \medskip%
+    \noindent%
+    {\color{spijker-blauw}\textbf{Antwoord:}\qquad%
+        \BODY%
+    }%
+    \bigskip%
+}%
+\NewEnviron{antwoord*}{%
+    \medskip%
+    \noindent%
+    {\color{spijker-blauw}%
+        \BODY%
+    }%
+    \bigskip%
+}%
+
+% --------------------------------------------------------------------------
+% article antwoorden
+\mdfdefinestyle{ans}{
+    linecolor=black,
+    %backgroundcolor=gray!10,
+}
+\newtheoremstyle{theoremdd}% name of the style to be used
+    {.5\topsep}% measure of space to leave above the theorem. E.g.: 3pt
+    {.5\topsep}% measure of space to leave below the theorem. E.g.: 3pt
+    {\footnotesize}% name of font to use in the body of the theorem
+    {0pt}% measure of space to indent
+    {\bfseries}% name of head font
+    {\,:\,}% punctuation between head and body
+    { }% space after theorem head; " " = normal interword space
+    {\thmname{#1}\thmnumber{ #2}\textnormal{\thmnote{ (#3)}}}
+
+\theoremstyle{theoremdd}
+
+\newtheorem*{theorem_answers}{Antwoorden}
+\surroundwithmdframed[style=ans]{theorem_answers}
+
+\NewEnviron{antwoorden}{%
+    \noindent%
+    \ifasospijker@hide
+        \rotatebox[origin=c]{180}{%\scalebox{1}[-1]{%
+        \noindent%
+    \fi
+    \begin{minipage}[t]{\linewidth}
+        \begin{theorem_answers}
+            \BODY%
+        \end{theorem_answers}%
+    \end{minipage}%
+    \ifasospijker@hide
+        }%}%
+    \fi
+}%
+
+% ==========================================================================
+}
+% ==========================================================================
+
+% ==========================================================================
+% asospijker beamer class
+% ==========================================================================
+\ifbool{asospijker@beamer}
+{
+% --------------------------------------------------------------------------
+% theme
+
+\mode<presentation>{}
+\usetheme{}
+
+\color{black}
+\setbeamercolor{title}{fg=spijker-blauw}
+\setbeamercolor{subtitle}{fg=spijker-blauw}
+\setbeamercolor{author}{fg=spijker-blauw}
+\setbeamercolor{date}{fg=spijker-blauw}
+\setbeamercolor{titlelike}{fg=black}
+\setbeamercolor{text}{fg=black}
+
+\setbeamerfont{frametitle}{size=\large,series=\bfseries,family=\sffamily}
+\setbeamerfont{title}{size=\Huge,series=\bfseries,family=\sffamily}
+\setbeamerfont{subtitle}{size=\Large,series=\bfseries,family=\sffamily}
+
+\setbeamerfont{author}{size=\large,series=\bfseries,family=\sffamily}
+\setbeamerfont{date}{size=\normalsize,family=\sffamily}
+
+\setbeamercolor{item projected}{bg=gray}
+\setbeamertemplate{enumerate items}[default]
+\setbeamertemplate{navigation symbols}{} % remove navigation symbols
+%\setbeamercovered{transparent}
+\setbeamercolor{block title}{fg=gray}
+\setbeamercolor{local structure}{fg=gray}
+\setbeamercolor{enumerate item}{fg=spijker-rood}
+\setbeamercolor{enumerate subitem}{fg=spijker-lichtrood}
+\setbeamertemplate{itemize item}{\color{spijker-rood}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{spijker-lichtrood}\small$\blacktriangleright$}
+\setlength{\leftmargini}{12mm}
+
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamercolor{section in toc}{fg=spijker-rood}
+\setbeamertemplate{subsection in toc}[sections numbered]
+\setbeamercolor{subsection in toc}{fg=spijker-lichtrood}
+
+% --------------------------------------------------------------------------
+% spijkerbeamer commands
+
+\newcommand{\logos}{%
+  \begin{tikzpicture}[remember picture, overlay] %
+    \node [shift={(0.cm, 1.2cm)}] at (current page.south){\includegraphics[height=1.2cm]{\spijkerlogo}};%
+  \end{tikzpicture}%
+}
+
+\newcommand{\topline}{%
+  \begin{tikzpicture}[remember picture, overlay] %
+    \path coordinate [shift={(-.5\paperwidth, -2pt)}] (A) at (current page.north)
+      coordinate [shift={(-.167\paperwidth, -2pt)}] (B) at (current page.north)
+      coordinate [shift={(+.167\paperwidth, -2pt)}] (C) at (current page.north)
+      coordinate [shift={(+.5\paperwidth, -2pt)}] (D) at (current page.north)
+      ; %
+    \draw[color=spijker-geel,line width=4pt] (A) -- (B); %
+    \draw[color=spijker-lichtrood,line width=4pt] (B) -- (C); %
+    \draw[color=spijker-rood,line width=4pt] (C) -- (D); %
+  \end{tikzpicture}%
+}
+
+\newcommand{\bottomline}{%
+  \begin{tikzpicture}[remember picture, overlay] %
+    \path coordinate [shift={(-.5\paperwidth, 2pt)}] (A) at (current page.south)
+      coordinate [shift={(-.167\paperwidth, 2pt)}] (B) at (current page.south)
+      coordinate [shift={(+.167\paperwidth, 2pt)}] (C) at (current page.south)
+      coordinate [shift={(+.5\paperwidth, 2pt)}] (D) at (current page.south)
+      ; %
+    \draw[color=spijker-geel,line width=4pt] (A) -- (B); %
+    \draw[color=spijker-lichtrood,line width=4pt] (B) -- (C); %
+    \draw[color=spijker-rood,line width=4pt] (C) -- (D); %
+  \end{tikzpicture}%
+}
+
+\newcommand{\footline}{%
+  \begin{tikzpicture}[remember picture, overlay] %
+    \path coordinate [shift={(-.5\paperwidth, 12pt)}] (A) at (current page.south)
+      coordinate [shift={(-.167\paperwidth, 12pt)}] (B) at (current page.south)
+      coordinate [shift={(+.167\paperwidth, 12pt)}] (C) at (current page.south)
+      coordinate [shift={(+.5\paperwidth, 12pt)}] (D) at (current page.south)
+      ; %
+    \draw[color=spijker-geel,line width=1.5pt] (A) -- (B); %
+    \draw[color=spijker-lichtrood,line width=1.5pt] (B) -- (C); %
+    \draw[color=spijker-rood,line width=1.5pt] (C) -- (D); %
+  \end{tikzpicture}%
+}
+
+\newcommand{\titleslide}[0]{ %
+  \begin{frame}[plain] %
+    \titlepage %
+    \logos %
+    \topline %
+    \bottomline %
+  \end{frame} %
+}
+	
+\newcommand\slidenote[2][black]{%
+  \tikz[remember picture,overlay,color=#1]%
+  \node [shift={(1.2in+\oddsidemargin+\textwidth,3mm)},above left] at (current page.south west) {\scriptsize#2}; %
+}
+
+\newcommand{\link}[2]{\href{#1}{\color{spijker-lichtblauw}\underline{\textit{#2}}}}
+
+\setbeamerfont{footline}{size=\tiny,family=\sffamily}
+\setbeamercolor{footline}{fg=spijker-blauw}
+\setbeamertemplate{footline}{
+    \hbox{%
+	\footline%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=3ex,dp=1.5ex,leftskip=2.5ex,rightskip=2.5ex,]{upper separation line foot}%
+        \usebeamerfont{title in head/foot}%
+        \ifthenelse{\equal{\insertshorttitle}{}}{}{\textbf{\insertshorttitle}}%
+        {\ifthenelse{\equal{\insertsection}{}}{}{{\color{spijker-blauw}\hspace{2.5ex}$\blacktriangleright$\hspace{2ex}\ifthenelse{\equal{\thesection}{}}{}{\thesection.}~\insertsection}}}%
+        {\ifthenelse{\equal{\insertsubsection}{}}{}{{\color{spijker-blauw}\hspace{2ex}$\rhd$\hspace{1.5ex}\it\insertsubsection}}}\hfill%
+        \insertframenumber{}\,/\,\inserttotalframenumber%
+    \end{beamercolorbox}}%
+}
+
+% ==========================================================================
+}
+% ==========================================================================
+
+% ==========================================================================
+% underline with linebreaks
+% ==========================================================================
+%\renewcommand{\underline}[1]{\ul{#1}}
+
+% ==========================================================================
+% cancelto down arrow
+% ==========================================================================
+% #1, #2 offset of label   #6 extra width to clear arrowhead
+% #3, #4 vector direction  #7 superscript label style
+% #5 vector width          #8 superscript label
+\tikzset{
+main node/.style={inner sep=0,outer sep=0},
+label node/.style={inner sep=0,outer ysep=.2em,outer xsep=.4em,font=\scriptsize,overlay},
+strike out/.style={shorten <=-.2em, shorten >=-.2em, overlay, semithick},
+strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick}
+}
+\renewcommand{\cancel}[2][spijker-rood]{\tikz[baseline=(N.base)]{
+  \node[main node](N){$#2$};
+  \draw[strike out,#1]  (N.south west) -- (N.north east);
+}}
+\renewcommand{\bcancel}[2][spijker-rood]{\tikz[baseline=(N.base)]{
+  \node[main node](N){$#2$};
+  \draw[strike out,#1]  (N.north west) -- (N.south east);
+}}
+\renewcommand{\cancelto}[3][spijker-rood]{\tikz[baseline=(N.base)]{
+  \node[main node](N){$#2$};
+  \node[label node,#1, anchor=south west] at (N.north east){$#3$};
+  \draw[strike out to,-latex,#1]  (N.south west) -- (N.north east);
+}}
+\newcommand{\bcancelto}[3][spijker-rood]{\tikz[baseline=(N.base)]{
+  \node[main node](N){$#2$};
+  \node[label node,#1, anchor=north west] at (N.south east){$#3$};
+  \draw[strike out to,-latex,#1]  (N.north west) -- (N.south east);
+}}
+
+% ==========================================================================
+% arrow in middle of a path
+% ==========================================================================
+\tikzset{
+  % style to apply some styles to each segment of a path
+  on each segment/.style={
+    decorate,
+    decoration={
+      show path construction,
+      moveto code={},
+      lineto code={
+        \path [#1]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+      curveto code={
+        \path [#1] (\tikzinputsegmentfirst)
+        .. controls
+        (\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
+        ..
+        (\tikzinputsegmentlast);
+      },
+      closepath code={
+        \path [#1]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+    },
+  },
+  % style to add an arrow in the middle of a path
+  mid arrow/.style={postaction={decorate,decoration={
+        markings,
+        mark=at position .5 with {\arrow[#1]{stealth}}
+      }}},
+}
+
+% ==========================================================================
+% math
+% ==========================================================================
+\newcommand\der{\mathrm{d}}
+\providecommand{\abs}[1]{\left|#1\right|}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+
+% ==========================================================================
+\endinput
+
+% HISTORY
+2022/09/22 v0.1a - first version on https://github.com/psmsmets/asospijker-templates
