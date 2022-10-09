@@ -38,8 +38,9 @@ Alle bovenstaande package-opties herdefiniëren de `\maketitle` functie.
 
 | Syntax | Omschrijving |
 | ------ | ------------ |
-| `dubbelzijdig` | Asymmetrische marges voor dubbelzijdig printen en inbinden.  |
-| `print` | Veranderen kleuren in grijswaarden (niet bij afbeeldingen). Standaard is `screen`.  |
+| `evaluatie` | Voegt een evaluatietabel toe aan de `test` en `taak` hoofdingen. |
+| `dubbelzijdig` | Asymmetrische marges voor dubbelzijdig printen en inbinden. |
+| `print` | Veranderen kleuren in grijswaarden (niet bij afbeeldingen). Standaard is `screen`. |
 | `show` | Maak de `antwoorden` onderaan het document leesbaar. Standaard is `hide`. |
 
 ### Voorgedefiniëerde vakken
@@ -71,7 +72,26 @@ Alle mogelijke control sequences voor de verschillende hoofdingen. Niet alle com
 
 v = verplicht, o = optioneel, - = niet getoond
 
-### Enviroments
+### Environments
+
+#### vragen
+Genereer genummerde vragen met punten vooraan in het vet (een aangepaste `enumerate` lijst met aangepaste verticale marges):
+```
+\begin{vragen}
+
+   \vraag[2pt] Eerste vraag ...
+
+   \vraag[1pt] Andere vraag ...
+
+   \vraag[3pt] Een grote vraag met deelvragen
+
+    \begin{deelvragen}
+        \deelvraag ...
+        \deelvraag ...
+    \end{deelvragen}
+ 
+\end{vragen}
+```
 
 #### antwoord en antwoord*
 Genereer een antwoordveld in `Spijker-blauw` startend met `Antwoord: `:
