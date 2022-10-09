@@ -651,9 +651,8 @@
         \BODY%
     \end{enumerate}%
 }%
-\newcommand{\vraag}[1][\ldots~ptn]{%
-    \item \textbf{(#1)}%
-%    \item \textbf{(#1~\ifthenelse{\equal{#1}{1}}{pt}{ptn})} %
+\newcommand{\vraag}[1][]{%
+    \item \ifthenelse{\equal{#1}{}}{}{\textbf{(#1)}}%
 }
 
 \NewEnviron{deelvragen}{%
