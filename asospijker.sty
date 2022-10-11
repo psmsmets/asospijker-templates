@@ -211,15 +211,15 @@
 % --------------------------------------------------------------------------
 % article variables
 \newcommand\toelichtingTestWiskunde{%
-  \textsl{Grafisch rekentoestel toegelaten, formulebladen niet toegelaten. Noteer overal duidelijk je \textbf{werkwijze}. Laat zien wat je antwoord is en trek onder elke oefening een lijn over de volledige breedte van je blad.}
+Grafisch rekentoestel toegelaten, formulebladen niet toegelaten. Noteer overal duidelijk je \textbf{werkwijze}. Laat zien wat je antwoord is en trek onder elke oefening een lijn over de volledige breedte van je blad.%
 }
 
 \newcommand\toelichtingTaakWiskunde{%
-  \textsl{Maak deze oefeningen altijd \textbf{op een apart blad}. Noteer overal duidelijk je \textbf{werkwijze}. Laat zien wat je antwoord is en trek onder elke oefening een lijn over de volledige breedte van je blad.}
+Maak deze oefeningen altijd \textbf{op een apart blad}. Noteer overal duidelijk je \textbf{werkwijze}. Laat zien wat je antwoord is en trek onder elke oefening een lijn over de volledige breedte van je blad.%
 }
 
 \newcommand\toelichtingProefwerkWiskunde{%
-  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm] %
+  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm, topsep=0pt] %
     \item[--] Gebruik van je GRM is enkel toegelaten \textbf{ter controle} tenzij anders vermeld. %
     \item[--] Los alle vragen algebra\"isch op en geef het exacte antwoord (bv. in een breuk) tenzij anders gevraagd. %
     \item[--] Wees volledig:  noteer altijd je \textbf{tussenstappen}, %
@@ -230,15 +230,15 @@
 }
 
 \newcommand\toelichtingTestFysica{%
-  \textsl{Grafisch rekentoestel toegelaten, formulebladen niet toegelaten. Noteer overal duidelijk je \textbf{werkwijze} en laat zien wat je antwoord is. Let op de beduidende cijfers en noteer steeds de correcte eenheid.}
+Grafisch rekentoestel toegelaten, formulebladen niet toegelaten. Noteer overal duidelijk je \textbf{werkwijze} en laat zien wat je antwoord is. Let op de beduidende cijfers en noteer steeds de correcte eenheid.%
 }
 
 \newcommand\toelichtingTaakFysica{%
-  \textsl{Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \textbf{gepaste structuur (gegeven - gevraagd - oplossing)}. Let op de beduidende cijfers en noteer steeds de correcte eenheid. Trek onder elke oefening een lijn over de volledige breedte van je blad.}
+Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \textbf{gepaste structuur (gegeven - gevraagd - oplossing)}. Let op de beduidende cijfers en noteer steeds de correcte eenheid. Trek onder elke oefening een lijn over de volledige breedte van je blad.%
 }
 
 \newcommand\toelichtingProefwerkFysica{%
-  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm] %
+  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm, topsep=0pt] %
     \item[--] Wees volledig: noteer altijd je tussenstappen, \textbf{enkel een uitkomst is \underline{niet} voldoende}. %
     \item[--] Schrijf \textbf{leesbaar} (nooit met potlood of in rood) en werk gestructureerd en ordelijk. %
     \item[--] \textbf{Markeer} je eindresultaat of antwoord. %
@@ -247,7 +247,7 @@
 }
 
 \newcommand\toelichtingSucces{%
-  \vspace{-.45em}{\hfill\textbf{Veel~succes!!}} \vspace{-.45em}%
+  \vspace{0em}{\hfill\textbf{Veel~succes!!}}%
 }
 
 \newcommand\leerkracht[1]{\renewcommand\@leerkracht{#1}}
@@ -423,7 +423,7 @@
     \multicolumn{3}{|l|}{Wanneer was je klaar met je proefwerk?} & \\%
     \hline%
   \end{tabularx}%
-  \endgroup
+  \endgroup%
 }
 
 \newcommand\headertest{%
@@ -506,17 +506,17 @@
 \renewcommand{\maketitle}{%
   \begingroup
   \setlength\parindent{0pt}
-  { \sffamily %
+  { \sffamily%
     \ifasospijker@proefwerk
       \headerproefwerk%
-      \\[.5em]{\rmfamily \small \@toelichting}
+      \\[.5em]{\rmfamily \small \textsl{\@toelichting}}%
     \else
       \ifasospijker@test
         \headertest%
         \ifasospijker@evaluatie
           \\[.5em]{\rmfamily \scriptsize \evaluatie}%
         \fi
-        \\[.5em]{\rmfamily \small \@toelichting}
+        \\[.5em]{\rmfamily \small \textsl{\@toelichting}}%
       \else
         \ifasospijker@practicum
           \headerpracticum%
@@ -527,10 +527,10 @@
     \fi
     \bigskip
     \ifthenelse{\equal{\@titel}{}}{}{%
-      \begin{center}\textbf{\LARGE{\@titel}}\end{center}\smallskip %
-      \ifasospijker@titellijn %
-          \vspace{-.8em}\par\noindent\rule{\textwidth}{1.2pt}\bigskip %
-      \fi %
+      \begin{center}\textbf{\LARGE{\@titel}}\end{center}\smallskip%
+      \ifasospijker@titellijn%
+          \vspace{-.8em}\par\noindent\rule{\textwidth}{1.2pt}\bigskip%
+      \fi%
     }%
   }%
   \endgroup
@@ -647,7 +647,7 @@
 % article vragen
 \NewEnviron{vragen}{%
     \noindent%
-    \begin{enumerate}[label={\arabic*.}, itemsep=2em]%
+    \begin{enumerate}[label={\arabic*.}, itemsep=1.8em]%
         \BODY%
     \end{enumerate}%
 }%
@@ -657,7 +657,7 @@
 
 \NewEnviron{deelvragen}{%
     \noindent%
-    \begin{enumerate}[itemsep=.65em]%
+    \begin{enumerate}[itemsep=.6em]%
         \BODY%
     \end{enumerate}%
 }%
