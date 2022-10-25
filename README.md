@@ -69,6 +69,8 @@ Alle mogelijke control sequences voor de verschillende hoofdingen. Niet alle com
 | `\datum{}` | v | o | o | o |
 | `\hulpmiddelen{}` | v | - | - | - |
 | `\toelichting{}` | v | o | o | - |
+| `\leerplandoelen{}` | - | o | - | - |
+| `\lesdoelen{}` | - | o | - | - |
 
 v = verplicht, o = optioneel, - = niet getoond
 
@@ -108,12 +110,15 @@ of een antwoordveld in `Spijker-blauw` zonder annotatie,
 \end{antwoord*}
 ```
 
+Om enkel een de tekst `Spijker-blauw` te maken kan je `\antw{...}` gebruiken.
+
 #### antwoorden
 Geneer een antwoordenbox, bijvoorbeeld voor onderaan je document, met de oplossingen van de oefeningen. Werk met `\label{vraag...}` in je `enumerate` van de opgaven.
 
 De antwoordbox is leesbaar met de optie `show` en omgedraaid met de optie `hide`.
 
 ```
+\vfill
 \begin{antwoorden}
     \begin{itemize*}
         \item[] \textbf{[\ref{vraag1}]} antwoord 1
@@ -121,6 +126,31 @@ De antwoordbox is leesbaar met de optie `show` en omgedraaid met de optie `hide`
         \item[] \textbf{[\ref{vraag3}]} antwoord 3
     \end{itemize*}
 \end{antwoorden}
+```
+
+#### labels in de kantlijn
+Je kan bij vragen ook bijvoorbeeld het cijfer of een opmerking in de kantlijn plaatsen.
+
+`\marginlabel{...}` = een tekstbox in de kantlijn uitgelijnd van waar je commando uitvoert.
+
+
+`\marginlabelbox{...}` = een `\marginlabel` maar dan een met een Spijker-blauwe (of zwarte bij de optie `print`) tekstbox met witte letters.
+
+#### Cancel
+Doorhalen van termen in vergelijkingen (`cancel` en `bcancel`) en eventueel met een toelichting (`cancelto` en `bcancelto`).
+```
+cancel{...}
+bcancel{...}
+cancelto[..]{...}{...}
+bcancelto[..]{...}{...}
+```
+
+#### Math commands
+```
+\abs{...}   % \left|#1\right|
+\norm{...}  % \lVert#1\rVert
+\der        % \mathrm{d}
+\g          % 9{,}81\,\text{m/s}^2
 ```
  
 ### Voorbeeld

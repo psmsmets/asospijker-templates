@@ -53,8 +53,8 @@
 % ==========================================================================
 % class loaded
 % ==========================================================================
-\newbool{asospijker@article}
-\newbool{asospijker@beamer}
+\newbool{asospijker@article}\asospijker@articlefalse
+\newbool{asospijker@beamer}\asospijker@beamerfalse
 
 \@ifclassloaded{article}{\asospijker@articletrue}{}%
 \@ifclassloaded{beamer}{\asospijker@beamertrue}{}%
@@ -80,30 +80,23 @@
   prefix=asospijker@
 }
 
-\ifbool{asospijker@article}
-{%
-  % user options
-  \DeclareBoolOption[false]{proefwerk}
-  \DeclareBoolOption[false]{test}
-  \DeclareBoolOption[false]{practicum}
-  \DeclareBoolOption[false]{taak}
-  \DeclareBoolOption[false]{logo}
+% user options
+\DeclareBoolOption[false]{proefwerk}
+\DeclareBoolOption[false]{test}
+\DeclareBoolOption[false]{practicum}
+\DeclareBoolOption[false]{taak}
+\DeclareBoolOption[false]{logo}
 
-  \DeclareBoolOption[false]{wiskunde}
-  \DeclareBoolOption[false]{fysica}
+\DeclareBoolOption[false]{evaluatie}
 
-  \DeclareBoolOption[false]{evaluatie}
+\DeclareBoolOption[false]{wiskunde}
+\DeclareBoolOption[false]{fysica}
 
-%  \DeclareStringOption[standaard]{hoofding}
-%  \DeclareStringOption[]{vak}
+\DeclareBoolOption[true]{noindent}
+\DeclareComplementaryOption{indent}{noindent}
 
-  \DeclareBoolOption[true]{noindent}
-  \DeclareComplementaryOption{indent}{noindent}
-
-  \DeclareBoolOption[false]{dubbelzijdig}
-  \DeclareComplementaryOption{enkelzijdig}{dubbelzijdig}
-}
-
+\DeclareBoolOption[false]{dubbelzijdig}
+\DeclareComplementaryOption{enkelzijdig}{dubbelzijdig}
 
 \DeclareBoolOption[true]{hide}
 \DeclareComplementaryOption{show}{hide}
@@ -149,9 +142,10 @@
   \RequirePackage{subcaption}
   \RequirePackage{lastpage}
   \RequirePackage{fancyhdr}
- % \RequirePackage{soul}
+  \RequirePackage{soul}
   \RequirePackage[]{titlesec}
   \RequirePackage{listings}
+  \RequirePackage{marginnote}
 }
 
 \ifbool{asospijker@beamer}
@@ -170,7 +164,8 @@
 \RequirePackage{pgfplots}
 \RequirePackage{pgfplotstable}
 \pgfplotsset{compat = newest}
-\usetikzlibrary{calc,babel,arrows.meta,decorations.pathreplacing,decorations.markings}
+\usetikzlibrary{calc,babel,arrows.meta,patterns,fadings}
+\usetikzlibrary{decorations.pathreplacing,decorations.markings,decorations.pathmorphing}
 
 % Math
 \RequirePackage{amsmath,amssymb,amsthm}
@@ -179,7 +174,7 @@
 \RequirePackage{cancel}
 
 % ==========================================================================
-% colors
+% colors and common styles
 % ==========================================================================
 \definecolor{lightgray}{gray}{0.8}
 
@@ -188,13 +183,13 @@
   \definecolor{spijker-geel}{RGB}{255,213,77}
   \definecolor{spijker-rood}{RGB}{228,102,88}
   \definecolor{spijker-lichtrood}{RGB}{246,176,135}
-  \def\spijkerlogo{asospijker-logo.png}
+  \def\spijkerlogofile{asospijker-logo.png}
 \else
   \definecolor{spijker-blauw}{gray}{0.10}
   \definecolor{spijker-geel}{gray}{0.80}
   \definecolor{spijker-rood}{gray}{0.30}
   \definecolor{spijker-lichtrood}{gray}{0.60}
-  \def\spijkerlogo{asospijker-logo-print.png}
+  \def\spijkerlogofile{asospijker-logo-print.png}
 \fi
 \colorlet{spijker-donkerblauw}{spijker-blauw!85!black}
 \colorlet{spijker-lichtblauw}{spijker-blauw!25!white}
@@ -202,14 +197,23 @@
 \colorlet{spijker-lichtgeel}{spijker-geel!25!white}
 \colorlet{spijker-donkerrood}{spijker-rood!85!black}
 
+\setlength{\fboxrule}{0.8pt}
+
 % ==========================================================================
-% asospijker article class
+% asospijker
 % ==========================================================================
-\ifbool{asospijker@article}
-{
 
 % --------------------------------------------------------------------------
-% article variables
+% asospijker logo
+\newcommand\spijkerlogo[1]{%
+  { \centering %
+    \includegraphics[{#1},margin=0pt 1ex 0pt 1ex,valign=m]{\spijkerlogofile}\\\vspace*{-.4em} %
+    \resizebox{\linewidth}{!}{\color{spijker-blauw}\sffamily\textbf{\lowercase\expandafter{\@baseline}}}%
+  } %
+}
+
+% --------------------------------------------------------------------------
+% asospijker variables
 \newcommand\toelichtingTestWiskunde{%
 Grafisch rekentoestel toegelaten, formulebladen niet toegelaten. Noteer overal duidelijk je \textbf{werkwijze}. Laat zien wat je antwoord is en trek onder elke oefening een lijn over de volledige breedte van je blad.%
 }
@@ -293,7 +297,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 \newcommand\@baseline{\ifthenelse{\equal{\@vak}{}}{goesting}{barst~van~\@vak}}
 
 % --------------------------------------------------------------------------
-% article short-cuts
+% asospijker short-cuts
 \ifasospijker@wiskunde
   \renewcommand\@vak{Wiskunde}
   \renewcommand\@baseline{barst~van~wiskunde}
@@ -322,6 +326,12 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \asospijker@testtrue
   \fi
 \fi
+
+% ==========================================================================
+% asospijker article class
+% ==========================================================================
+\ifbool{asospijker@article}
+{
 
 % --------------------------------------------------------------------------
 % article layout
@@ -371,13 +381,6 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 \renewcommand{\tabularxcolumn}[1]{m{#1}}
 
-\newcommand\headerlogo[1]{%
-  { \centering %
-    \includegraphics[{#1},margin=0pt 1ex 0pt 1ex,valign=m]{\spijkerlogo}\\\vspace*{-.4em} %
-    \resizebox{\linewidth}{!}{\color{spijker-blauw}\sffamily\textbf{\lowercase\expandafter{\@baseline}}}%
-  } %
-}
-
 \newcommand\headerlln{%
   \smallskip \textsf{Voornaam:~\ifthenelse{\equal{\@voornaam}{}}{\dotfill}{\dotfill\textbf{\@voornaam}\dotfill}}\medskip\newline%
   {Naam:~\ifthenelse{\equal{\@naam}{}}{\dotfill}{\hspace{4.05ex}\dotfill\textbf{\@naam}\dotfill}}\medskip\newline%
@@ -404,7 +407,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
                                 |>{\arraybackslash}X%
                                 |>{\centering\arraybackslash}m{1.5cm} | }%
     \hline%
-    \headerlogo{width=\linewidth}%
+    \spijkerlogo{width=\linewidth}%
     &%
       {\centering%
         \textbf{\Large\@vak} \\%
@@ -438,7 +441,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
                                 |>{\arraybackslash}X%
                                 |>{\centering\arraybackslash}m{1.5cm} | }%
     \hline%
-    \headerlogo{width=\linewidth}%
+    \spijkerlogo{width=\linewidth}%
     &%
       {\centering %
         \smallskip \textbf{\Large\@vak} \\%
@@ -472,7 +475,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
                                 |>{\centering\arraybackslash}X%
                                 |>{\centering\arraybackslash}m{1.5cm} | }%
     \hline%
-    \headerlogo{width=\linewidth}%
+    \spijkerlogo{width=\linewidth}%
     & %
       {\centering%
         {\textbf{\Large{\@vak}} \ifthenelse{\equal{\@module}{}}{}{\Large~$|$~\@module}}%
@@ -491,7 +494,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   \@asospijker@inputrequired{\@titel}{\titel}
   %
   \ifasospijker@logo
-    \includegraphics[height=1.2cm]{\spijkerlogo} \smallskip \\
+    \includegraphics[height=1.2cm]{\spijkerlogofile} \smallskip \\
   \fi
   {\small%
     {\ifthenelse{\equal{\@vak}{}}{}{\textbf{\@vak}~$|$~}\ifthenelse{\equal{\@module}{}}{}{{\@module}~$|$~}\@leerkracht}%
@@ -644,6 +647,14 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 \captionsetup[sub]{format=subcaption}
 
 % --------------------------------------------------------------------------
+% article marginnote
+
+\reversemarginpar
+
+\newcommand{\marginlabel}[1]{\marginnote{\sffamily\scriptsize#1}}
+\newcommand{\marginlabelbox}[1]{\marginlabel{\colorbox{spijker-blauw}{\color{white}#1}}}
+
+% --------------------------------------------------------------------------
 % article vragen
 \NewEnviron{vragen}{%
     \noindent%
@@ -667,10 +678,10 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 % --------------------------------------------------------------------------
 % article antwoord 
-\NewEnviron{antwoord}{%
+\NewEnviron{antwoord}[1][Antwoord]{%
     \medskip%
     \noindent%
-    {\color{spijker-blauw}\textbf{Antwoord:}\qquad%
+    {\color{spijker-blauw}{\sffamily\textbf{#1:}}\quad%
         \BODY%
     }%
     \bigskip%
@@ -683,6 +694,9 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     }%
     \bigskip%
 }%
+\newcommand{\antw}[1]{%
+    {\color{spijker-blauw}#1}%
+}
 
 % --------------------------------------------------------------------------
 % article antwoorden
@@ -725,14 +739,15 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 }
 % ==========================================================================
 
+
 % ==========================================================================
 % asospijker beamer class
 % ==========================================================================
 \ifbool{asospijker@beamer}
 {
+
 % --------------------------------------------------------------------------
 % theme
-
 \mode<presentation>{}
 \usetheme{}
 
@@ -772,34 +787,43 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 % spijkerbeamer commands
 
 \newcommand{\logos}{%
-  \begin{tikzpicture}[remember picture, overlay] %
-    \node [shift={(0.cm, 1.2cm)}] at (current page.south){\includegraphics[height=1.2cm]{\spijkerlogo}};%
-  \end{tikzpicture}%
+    \begin{tikzpicture}[remember picture, overlay] %
+        \node [shift={(0.cm, 1.2cm)}] at (current page.south){%
+            \begin{minipage}{3cm}%
+                \centering%
+                \includegraphics[width=\textwidth]{\spijkerlogofile}%
+                \ifthenelse{\equal{\@baseline}{}}{}{%
+                    \\\vspace*{-.4em}%
+                    \resizebox{\linewidth}{!}{\color{spijker-blauw}\sffamily\textbf{\lowercase\expandafter{\@baseline}}}%
+                }%
+            \end{minipage}%
+        };%
+    \end{tikzpicture}%
 }
 
 \newcommand{\topline}{%
   \begin{tikzpicture}[remember picture, overlay] %
-    \path coordinate [shift={(-.5\paperwidth, -2pt)}] (A) at (current page.north)
-      coordinate [shift={(-.167\paperwidth, -2pt)}] (B) at (current page.north)
-      coordinate [shift={(+.167\paperwidth, -2pt)}] (C) at (current page.north)
-      coordinate [shift={(+.5\paperwidth, -2pt)}] (D) at (current page.north)
+    \path coordinate [shift={(-.5\paperwidth, -1.5pt)}] (A) at (current page.north)
+      coordinate [shift={(-.167\paperwidth, -1.5pt)}] (B) at (current page.north)
+      coordinate [shift={(+.167\paperwidth, -1.5pt)}] (C) at (current page.north)
+      coordinate [shift={(+.5\paperwidth, -1.5pt)}] (D) at (current page.north)
       ; %
-    \draw[color=spijker-geel,line width=4pt] (A) -- (B); %
-    \draw[color=spijker-lichtrood,line width=4pt] (B) -- (C); %
-    \draw[color=spijker-rood,line width=4pt] (C) -- (D); %
+    \draw[color=spijker-geel,line width=3pt] (A) -- (B); %
+    \draw[color=spijker-lichtrood,line width=3pt] (B) -- (C); %
+    \draw[color=spijker-rood,line width=3pt] (C) -- (D); %
   \end{tikzpicture}%
 }
 
 \newcommand{\bottomline}{%
   \begin{tikzpicture}[remember picture, overlay] %
-    \path coordinate [shift={(-.5\paperwidth, 2pt)}] (A) at (current page.south)
-      coordinate [shift={(-.167\paperwidth, 2pt)}] (B) at (current page.south)
-      coordinate [shift={(+.167\paperwidth, 2pt)}] (C) at (current page.south)
-      coordinate [shift={(+.5\paperwidth, 2pt)}] (D) at (current page.south)
+    \path coordinate [shift={(-.5\paperwidth, 1.5pt)}] (A) at (current page.south)
+      coordinate [shift={(-.167\paperwidth, 1.5pt)}] (B) at (current page.south)
+      coordinate [shift={(+.167\paperwidth, 1.5pt)}] (C) at (current page.south)
+      coordinate [shift={(+.5\paperwidth, 1.5pt)}] (D) at (current page.south)
       ; %
-    \draw[color=spijker-geel,line width=4pt] (A) -- (B); %
-    \draw[color=spijker-lichtrood,line width=4pt] (B) -- (C); %
-    \draw[color=spijker-rood,line width=4pt] (C) -- (D); %
+    \draw[color=spijker-geel,line width=3pt] (A) -- (B); %
+    \draw[color=spijker-lichtrood,line width=3pt] (B) -- (C); %
+    \draw[color=spijker-rood,line width=3pt] (C) -- (D); %
   \end{tikzpicture}%
 }
 
@@ -810,13 +834,13 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
       coordinate [shift={(+.167\paperwidth, 12pt)}] (C) at (current page.south)
       coordinate [shift={(+.5\paperwidth, 12pt)}] (D) at (current page.south)
       ; %
-    \draw[color=spijker-geel,line width=1.5pt] (A) -- (B); %
-    \draw[color=spijker-lichtrood,line width=1.5pt] (B) -- (C); %
-    \draw[color=spijker-rood,line width=1.5pt] (C) -- (D); %
+    \draw[color=spijker-geel,line width=.8pt] (A) -- (B); %
+    \draw[color=spijker-lichtrood,line width=.8pt] (B) -- (C); %
+    \draw[color=spijker-rood,line width=.8pt] (C) -- (D); %
   \end{tikzpicture}%
 }
 
-\newcommand{\titleslide}[0]{ %
+\renewcommand{\maketitle}[0]{ %
   \begin{frame}[plain] %
     \titlepage %
     \logos %
@@ -831,6 +855,9 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 }
 
 \newcommand{\link}[2]{\href{#1}{\color{spijker-lichtblauw}\underline{\textit{#2}}}}
+
+% --------------------------------------------------------------------------
+% spijkerbeamer template
 
 \setbeamerfont{footline}{size=\tiny,family=\sffamily}
 \setbeamercolor{footline}{fg=spijker-blauw}
@@ -865,7 +892,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 main node/.style={inner sep=0,outer sep=0},
 label node/.style={inner sep=0,outer ysep=.2em,outer xsep=.4em,font=\scriptsize,overlay},
 strike out/.style={shorten <=-.2em, shorten >=-.2em, overlay, semithick},
-strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick}
+strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 }
 \renewcommand{\cancel}[2][spijker-rood]{\tikz[baseline=(N.base)]{
   \node[main node](N){$#2$};
@@ -887,8 +914,12 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick}
 }}
 
 % ==========================================================================
-% arrow in middle of a path
+% TikZ and PGF
 % ==========================================================================
+
+% --------------------------------------------------------------------------
+% arrow in middle of a path
+
 \tikzset{
   % style to apply some styles to each segment of a path
   on each segment/.style={
@@ -920,12 +951,85 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick}
       }}},
 }
 
+% --------------------------------------------------------------------------
+% shiny ball
+
+\pgfdeclareverticalshading{up}{100bp}{%
+    color(0bp)=(pgftransparent!0); color(50bp)=(pgftransparent!0);
+    color(75bp)=(pgftransparent!25); color(100bp)=(pgftransparent!25)
+}
+\pgfdeclarefading{up}{\pgfuseshading{up}}    
+\pgfdeclareradialshading{thick ring}{\pgfpointorigin}{
+    color(0pt)=(pgftransparent!100); color(15pt)=(pgftransparent!100); 
+    color(20)=(pgftransparent!0);
+    color(25bp)=(pgftransparent!100); color(50bp)=(pgftransparent!100)
+}
+\pgfdeclarefading{thick ring}{\pgfuseshading{thick ring}}    
+\begin{tikzfadingfrompicture}[name=ball]
+\shade [shading=ball, ball color=black] circle [radius=1];
+\end{tikzfadingfrompicture} 
+\begin{tikzfadingfrompicture}[name=ring]
+\fill [white, path fading=thick ring] circle [radius=1];
+\fill [black, path fading=up, fading angle=215] circle [radius=1];
+\end{tikzfadingfrompicture} 
+
+\tikzset{shiny ball/.style={
+    fill=none, draw=none, shading=ball, shading angle=-15,
+    postaction={fill=white, path fading=ball, opacity=0.75, fading angle=45},
+    postaction={fill=white, path fading=ring},
+}}
+
+% --------------------------------------------------------------------------
+% mid arrow
+
+\tikzset{
+  % style to apply some styles to each segment of a path
+  on each segment/.style={
+    decorate,
+    decoration={
+      show path construction,
+      moveto code={},
+      lineto code={
+        \path [#1]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+      curveto code={
+        \path [#1] (\tikzinputsegmentfirst)
+        .. controls
+        (\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
+        ..
+        (\tikzinputsegmentlast);
+      },
+      closepath code={
+        \path [#1]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+    },
+  },
+  % style to add an arrow in the middle of a path
+  mid arrow/.style={postaction={decorate,decoration={
+        markings,
+        mark=at position .5 with {\arrow[#1]{stealth}}
+      }}},
+}
+
+% --------------------------------------------------------------------------
+% dot
+
+\tikzset{dot/.style={circle, inner sep=2pt, fill, label={\normalsize #1}, name=#1}}
+
 % ==========================================================================
 % math
 % ==========================================================================
-\newcommand\der{\mathrm{d}}
 \providecommand{\abs}[1]{\left|#1\right|}
 \providecommand{\norm}[1]{\lVert#1\rVert}
+\newcommand*\der{\mathrm{d}}
+\newcommand*\g{9{,}81\,\text{m/s}^2}
+
+% ==========================================================================
+% other commands
+% ==========================================================================
+\newcommand*\Capstone[0]{\emph{Capstone}\ }
 
 % ==========================================================================
 \endinput
