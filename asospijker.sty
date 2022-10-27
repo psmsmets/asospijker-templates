@@ -22,8 +22,8 @@
 % --------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
 
-\newcommand*\@asospijker@date{2022/09/22}
-\newcommand*\@asospijker@version{v0.1a}
+\newcommand*\@asospijker@date{2022/10/25}
+\newcommand*\@asospijker@version{v0.2a}
 \newcommand*\@asospijker@description{ASO Spijker LaTeX article and beamer template}
 
 \ProvidesPackage{asospijker}[\@asospijker@date\space \@asospijker@version\space \@asospijker@description]
@@ -1016,7 +1016,7 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 % --------------------------------------------------------------------------
 % dot
 
-\tikzset{dot/.style={circle, inner sep=2pt, fill, label={\normalsize #1}, name=#1}}
+\tikzset{dot/.style={circle, inner sep=2pt, fill, label={#1}, name=#1}}
 
 % ==========================================================================
 % math
