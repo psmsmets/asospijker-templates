@@ -128,7 +128,7 @@
   \else
     \RequirePackage[left=1.8cm, right=1.8cm, top=1.3cm, bottom=2.5cm]{geometry}
   \fi
-  \RequirePackage[usenames,dvipsnames]{xcolor}
+  \RequirePackage[usenames,dvipsnames,svgnames,x11names]{xcolor}
   \RequirePackage{graphicx}
   \RequirePackage[export]{adjustbox}
   \RequirePackage{tabularx}
@@ -1022,7 +1022,7 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 % math
 % ==========================================================================
 \providecommand{\abs}[1]{\left|#1\right|}
-\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\norm}[1]{\left\lVert#1\right\rVert}
 \newcommand*\der{\mathrm{d}}
 \newcommand*\g{9{,}81\,\text{m/s}^2}
 
