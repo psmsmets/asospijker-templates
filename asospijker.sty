@@ -163,7 +163,7 @@
 \RequirePackage{pgffor}
 \RequirePackage{pgfplots}
 \RequirePackage{pgfplotstable}
-\pgfplotsset{compat = newest}
+\pgfplotsset{compat=newest}
 \usetikzlibrary{calc,babel,arrows.meta,patterns,fadings}
 \usetikzlibrary{decorations.pathreplacing,decorations.markings,decorations.pathmorphing}
 
@@ -656,9 +656,9 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 % --------------------------------------------------------------------------
 % article vragen
-\NewEnviron{vragen}{%
+\NewEnviron{vragen}[1][]{%
     \noindent%
-    \begin{enumerate}[label={\arabic*.}, itemsep=1.8em]%
+    \begin{enumerate}[label={\arabic*.}, itemsep=1.8em, #1]%
         \BODY%
     \end{enumerate}%
 }%
@@ -666,9 +666,9 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \item \ifthenelse{\equal{#1}{}}{}{\textbf{(#1)}}%
 }
 
-\NewEnviron{deelvragen}{%
+\NewEnviron{deelvragen}[1][]{%
     \noindent%
-    \begin{enumerate}[itemsep=.6em]%
+    \begin{enumerate}[itemsep=.6em, #1]%
         \BODY%
     \end{enumerate}%
 }%
