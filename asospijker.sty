@@ -155,6 +155,7 @@
   \RequirePackage{grffile}
   \RequirePackage{appendixnumberbeamer}
   \RequirePackage{hyperref}
+  \RequirePackage{xpatch}
 }
 
 % Math
@@ -176,11 +177,11 @@
 \usetikzlibrary{angles}
 \usetikzlibrary{babel}
 \usetikzlibrary{quotes}
-\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows, arrows.meta}
 \usetikzlibrary{patterns}
 \usetikzlibrary{fadings}
 \usetikzlibrary{scopes}
-\usetikzlibrary{decorations.pathreplacing,decorations.markings,decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing,decorations.markings,decorations.pathmorphing,decorations.shapes}
 
 % ==========================================================================
 % colors and common styles
@@ -215,10 +216,10 @@
 % --------------------------------------------------------------------------
 % asospijker logo
 \newcommand\spijkerlogo[1]{%
-  { \centering %
-    \includegraphics[{#1},margin=0pt 1ex 0pt 1ex,valign=m]{\spijkerlogofile}\\\vspace*{-.4em} %
+  { \centering%
+    \includegraphics[{#1},margin=0pt 1ex 0pt 1ex,valign=m]{\spijkerlogofile}\\\vspace*{-.4em}%
     \resizebox{\linewidth}{!}{\color{spijker-blauw}\sffamily\textbf{\lowercase\expandafter{\@baseline}}}%
-  } %
+  }%
 }
 
 % --------------------------------------------------------------------------
@@ -232,13 +233,13 @@ Maak deze oefeningen altijd \textbf{op een apart blad}. Noteer overal duidelijk 
 }
 
 \newcommand\toelichtingProefwerkWiskunde{%
-  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm, topsep=0pt] %
-    \item[--] Gebruik van je GRM is enkel toegelaten \textbf{ter controle} tenzij anders vermeld. %
-    \item[--] Los alle vragen algebra\"isch op en geef het exacte antwoord (bv. in een breuk) tenzij anders gevraagd. %
-    \item[--] Wees volledig:  noteer altijd je \textbf{tussenstappen}, %
-              \textbf{enkel een uitkomst is \underline{niet} voldoende}. %
-    \item[--] \textbf{Markeer} je eindresultaat of antwoord. %
-    \item[--] Schrijf \textbf{leesbaar} (nooit met potlood of in rood) en werk overzichtelijk en net. %
+  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm, topsep=0pt]%
+    \item[--] Gebruik van je GRM is enkel toegelaten \textbf{ter controle} tenzij anders vermeld.%
+    \item[--] Los alle vragen algebra\"isch op en geef het exacte antwoord (bv. in een breuk) tenzij anders gevraagd.%
+    \item[--] Wees volledig:  noteer altijd je \textbf{tussenstappen},%
+              \textbf{enkel een uitkomst is \underline{niet} voldoende}.%
+    \item[--] \textbf{Markeer} je eindresultaat of antwoord.%
+    \item[--] Schrijf \textbf{leesbaar} (nooit met potlood of in rood) en werk overzichtelijk en net.%
   \end{itemize}\vspace{-.5em}}%
 }
 
@@ -251,11 +252,11 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 }
 
 \newcommand\toelichtingProefwerkFysica{%
-  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm, topsep=0pt] %
-    \item[--] Wees volledig: noteer altijd je tussenstappen, \textbf{enkel een uitkomst is \underline{niet} voldoende}. %
-    \item[--] Schrijf \textbf{leesbaar} (nooit met potlood of in rood) en werk gestructureerd en ordelijk. %
-    \item[--] \textbf{Markeer} je eindresultaat of antwoord. %
-    \item[--] Let op de beduidende cijfers en noteer steeds de correcte eenheid. %
+  {\begin{itemize}[itemsep=.05em, leftmargin=.5cm, topsep=0pt]%
+    \item[--] Wees volledig: noteer altijd je tussenstappen, \textbf{enkel een uitkomst is \underline{niet} voldoende}.%
+    \item[--] Schrijf \textbf{leesbaar} (nooit met potlood of in rood) en werk gestructureerd en ordelijk.%
+    \item[--] \textbf{Markeer} je eindresultaat of antwoord.%
+    \item[--] Let op de beduidende cijfers en noteer steeds de correcte eenheid.%
   \end{itemize}}%
 }
 
@@ -372,7 +373,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 \pagestyle{fancy}
 \pagenumbering{arabic}
 
-\fancyhf{} % clear all header and footer fields
+\fancyhf{}% clear all header and footer fields
 %\fancyfoot[C]{\footnotesize{\thepage}\,/\,\pageref{LastPage}}
 \ifasospijker@dubbelzijdig
   \fancyfoot[LE,RO]{\scriptsize{\textsf{p.~\thepage~van~\pageref{LastPage}}}}
@@ -423,7 +424,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
         \textit{\footnotesize \@leerkracht} \\%
         {\normalsize \@klas} \\%
         {\normalsize \@datum}%
-      } %
+      }%
     & \headerlln%
     & {\large \headercijfer}%
     \\%
@@ -452,7 +453,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \hline%
     \spijkerlogo{width=\linewidth}%
     &%
-      {\centering %
+      {\centering%
         \smallskip \textbf{\Large\@vak} \\%
         \ifthenelse{\equal{\@module}{}\and\equal{\@leerkracht}{}}{%
           \bigskip%
@@ -485,7 +486,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
                                 |>{\centering\arraybackslash}m{1.5cm} | }%
     \hline%
     \spijkerlogo{width=\linewidth}%
-    & %
+    &%
       {\centering%
         {\textbf{\Large{\@vak}} \ifthenelse{\equal{\@module}{}}{}{\Large~$|$~\@module}}%
         \ifthenelse{\equal{\@leerkracht}{}}{}{\\\smallskip\textsf{\@leerkracht}}%
@@ -765,19 +766,19 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 \setbeamercolor{subtitle}{fg=spijker-blauw}
 \setbeamercolor{author}{fg=spijker-blauw}
 \setbeamercolor{date}{fg=spijker-blauw}
-\setbeamercolor{titlelike}{fg=black}
+\setbeamercolor{titlelike}{fg=spijker-blauw}
 \setbeamercolor{text}{fg=black}
 
-\setbeamerfont{frametitle}{size=\large,series=\bfseries,family=\sffamily}
 \setbeamerfont{title}{size=\Huge,series=\bfseries,family=\sffamily}
 \setbeamerfont{subtitle}{size=\Large,series=\bfseries,family=\sffamily}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries,family=\sffamily}
 
 \setbeamerfont{author}{size=\large,series=\bfseries,family=\sffamily}
 \setbeamerfont{date}{size=\normalsize,family=\sffamily}
 
 \setbeamercolor{item projected}{bg=gray}
 \setbeamertemplate{enumerate items}[default]
-\setbeamertemplate{navigation symbols}{} % remove navigation symbols
+\setbeamertemplate{navigation symbols}{}% remove navigation symbols
 %\setbeamercovered{transparent}
 \setbeamercolor{block title}{fg=gray}
 \setbeamercolor{local structure}{fg=gray}
@@ -788,82 +789,140 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 \setlength{\leftmargini}{12mm}
 
 \setbeamertemplate{section in toc}[sections numbered]
-\setbeamercolor{section in toc}{fg=spijker-rood}
-\setbeamertemplate{subsection in toc}[sections numbered]
+\setbeamercolor{section in toc}{fg=spijker-blauw}
+%\setbeamertemplate{subsection in toc}[subsections numbered]
 \setbeamercolor{subsection in toc}{fg=spijker-lichtrood}
+
+\AtBeginSection[]{%
+  \maketoc[currentsection]
+}
+
+\newcommand{\my@beamer@setsep}{%
+\ifnum\@itemdepth=1\relax
+     \setlength\itemsep{\my@beamer@itemsepi}% separation for first level
+     \setlength\topsep{\my@beamer@topsep}%
+  \else
+    \ifnum\@itemdepth=2\relax
+      \setlength\itemsep{\my@beamer@itemsepii}% separation for second level
+      \setlength\topsep{.5\my@beamer@topsep}%
+    \else
+      \ifnum\@itemdepth=3\relax
+        \setlength\itemsep{\my@beamer@itemsepiii}% separation for third level
+        \setlength\topsep{.25\my@beamer@topsep}%
+      \fi
+    \fi
+  \fi
+}
+\newlength{\my@beamer@topsep}\setlength{\my@beamer@topsep}{2.0ex}
+\newlength{\my@beamer@itemsepi}\setlength{\my@beamer@itemsepi}{2.0ex}
+\newlength{\my@beamer@itemsepii}\setlength{\my@beamer@itemsepii}{1.0ex}
+\newlength{\my@beamer@itemsepiii}\setlength{\my@beamer@itemsepiii}{.5ex}
+\newcommand\setlistsep[3]{%
+  \setlength{\my@beamer@itemsepi}{#1}%
+  \setlength{\my@beamer@itemsepii}{#2}%
+  \setlength{\my@beamer@itemsepiii}{#3}%
+}
+
+\xpatchcmd{\itemize}
+  {\def\makelabel}
+  {\my@beamer@setsep\def\makelabel}
+ {}
+ {}
+
+\xpatchcmd{\beamer@enum@}
+  {\def\makelabel}
+  {\my@beamer@setsep\def\makelabel}
+ {}
+ {}
+
 
 % --------------------------------------------------------------------------
 % spijkerbeamer commands
 
 \newcommand{\logos}{%
-    \begin{tikzpicture}[remember picture, overlay] %
-        \node [shift={(0.cm, 1.2cm)}] at (current page.south){%
-            \begin{minipage}{3cm}%
-                \centering%
-                \includegraphics[width=\textwidth]{\spijkerlogofile}%
-                \ifthenelse{\equal{\@baseline}{}}{}{%
-                    \\\vspace*{-.4em}%
-                    \resizebox{\linewidth}{!}{\color{spijker-blauw}\sffamily\textbf{\lowercase\expandafter{\@baseline}}}%
-                }%
-            \end{minipage}%
-        };%
-    \end{tikzpicture}%
+  \begin{tikzpicture}[remember picture, overlay]%
+    \node [shift={(0.cm, 1.2cm)}] at (current page.south){%
+      \begin{minipage}{3cm}%
+        \centering%
+        \includegraphics[width=\textwidth]{\spijkerlogofile}%
+        \ifthenelse{\equal{\@baseline}{}}{}{%
+          \\\vspace*{-.4em}%
+          \resizebox{\linewidth}{!}{\color{spijker-blauw}\sffamily\textbf{\lowercase\expandafter{\@baseline}}}%
+        }%
+      \end{minipage}%
+    };%
+  \end{tikzpicture}%
 }
 
 \newcommand{\topline}{%
-  \begin{tikzpicture}[remember picture, overlay] %
+  \begin{tikzpicture}[remember picture, overlay]%
     \path coordinate [shift={(-.5\paperwidth, -1.5pt)}] (A) at (current page.north)
       coordinate [shift={(-.167\paperwidth, -1.5pt)}] (B) at (current page.north)
       coordinate [shift={(+.167\paperwidth, -1.5pt)}] (C) at (current page.north)
       coordinate [shift={(+.5\paperwidth, -1.5pt)}] (D) at (current page.north)
-      ; %
-    \draw[color=spijker-geel,line width=3pt] (A) -- (B); %
-    \draw[color=spijker-lichtrood,line width=3pt] (B) -- (C); %
-    \draw[color=spijker-rood,line width=3pt] (C) -- (D); %
+      ;%
+    \draw[color=spijker-geel,line width=3pt] (A) -- (B);%
+    \draw[color=spijker-lichtrood,line width=3pt] (B) -- (C);%
+    \draw[color=spijker-rood,line width=3pt] (C) -- (D);%
   \end{tikzpicture}%
 }
 
 \newcommand{\bottomline}{%
-  \begin{tikzpicture}[remember picture, overlay] %
+  \begin{tikzpicture}[remember picture, overlay]%
     \path coordinate [shift={(-.5\paperwidth, 1.5pt)}] (A) at (current page.south)
       coordinate [shift={(-.167\paperwidth, 1.5pt)}] (B) at (current page.south)
       coordinate [shift={(+.167\paperwidth, 1.5pt)}] (C) at (current page.south)
       coordinate [shift={(+.5\paperwidth, 1.5pt)}] (D) at (current page.south)
-      ; %
-    \draw[color=spijker-geel,line width=3pt] (A) -- (B); %
-    \draw[color=spijker-lichtrood,line width=3pt] (B) -- (C); %
-    \draw[color=spijker-rood,line width=3pt] (C) -- (D); %
+      ;%
+    \draw[color=spijker-geel,line width=3pt] (A) -- (B);%
+    \draw[color=spijker-lichtrood,line width=3pt] (B) -- (C);%
+    \draw[color=spijker-rood,line width=3pt] (C) -- (D);%
   \end{tikzpicture}%
 }
 
 \newcommand{\footline}{%
-  \begin{tikzpicture}[remember picture, overlay] %
+  \begin{tikzpicture}[remember picture, overlay]%
     \path coordinate [shift={(-.5\paperwidth, 12pt)}] (A) at (current page.south)
       coordinate [shift={(-.167\paperwidth, 12pt)}] (B) at (current page.south)
       coordinate [shift={(+.167\paperwidth, 12pt)}] (C) at (current page.south)
       coordinate [shift={(+.5\paperwidth, 12pt)}] (D) at (current page.south)
-      ; %
-    \draw[color=spijker-geel,line width=.8pt] (A) -- (B); %
-    \draw[color=spijker-lichtrood,line width=.8pt] (B) -- (C); %
-    \draw[color=spijker-rood,line width=.8pt] (C) -- (D); %
+      ;%
+    \draw[color=spijker-geel,line width=.8pt] (A) -- (B);%
+    \draw[color=spijker-lichtrood,line width=.8pt] (B) -- (C);%
+    \draw[color=spijker-rood,line width=.8pt] (C) -- (D);%
   \end{tikzpicture}%
 }
 
-\renewcommand{\maketitle}[0]{ %
-  \begin{frame}[plain] %
-    \titlepage %
-    \logos %
-    \topline %
-    \bottomline %
-  \end{frame} %
+\NewDocumentCommand{\tab}{ O{spijker-rood} O{white} m}{%
+  \begin{tikzpicture}[remember picture, overlay]%
+    \node[shift={(-1.5ex, 0)}, at=(current page.north east), anchor=north east,%
+          rectangle, draw, color=#1, minimum height=1cm, fill=#1]%
+      {\color{#2}\bfseries\sffamily#3};%
+  \end{tikzpicture}%
+}
+
+\renewcommand{\maketitle}[0]{%
+  \begin{frame}[plain]%
+    \titlepage%
+    \logos%
+    \topline%
+    \bottomline%
+  \end{frame}%
+}
+
+\NewDocumentCommand{\maketoc}{ O{} O{Overzicht} }{%
+  \begin{frame}[plain]{#2}%
+    \bottomline%
+    \tableofcontents[#1]%
+  \end{frame}%
 }
 	
 \newcommand\slidenote[2][black]{%
   \tikz[remember picture,overlay,color=#1]%
-  \node [shift={(1.2in+\oddsidemargin+\textwidth,3mm)},above left] at (current page.south west) {\scriptsize#2}; %
+  \node [shift={(-.5ex,4mm)},above left] at (current page.south east) {\tiny#2};%
 }
 
-\newcommand{\link}[2]{\href{#1}{\color{spijker-lichtblauw}\underline{\textit{#2}}}}
+\newcommand{\link}[2]{\href{#1}{\color{spijker-blauw}\underline{#2}}}
 
 % --------------------------------------------------------------------------
 % spijkerbeamer template
@@ -871,15 +930,17 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 \setbeamerfont{footline}{size=\tiny,family=\sffamily}
 \setbeamercolor{footline}{fg=spijker-blauw}
 \setbeamertemplate{footline}{
-    \hbox{%
-	\footline%
+  \hbox{%
+    \footline%
     \begin{beamercolorbox}[wd=\paperwidth,ht=3ex,dp=1.5ex,leftskip=2.5ex,rightskip=2.5ex,]{upper separation line foot}%
-        \usebeamerfont{title in head/foot}%
-        \ifthenelse{\equal{\insertshorttitle}{}}{}{\textbf{\insertshorttitle}}%
-        {\ifthenelse{\equal{\insertsection}{}}{}{{\color{spijker-blauw}\hspace{2.5ex}$\blacktriangleright$\hspace{2ex}\ifthenelse{\equal{\thesection}{}}{}{\thesection.}~\insertsection}}}%
-        {\ifthenelse{\equal{\insertsubsection}{}}{}{{\color{spijker-blauw}\hspace{2ex}$\rhd$\hspace{1.5ex}\it\insertsubsection}}}\hfill%
-        \insertframenumber{}\,/\,\inserttotalframenumber%
-    \end{beamercolorbox}}%
+      \usebeamerfont{title in head/foot}%
+      \ifthenelse{\equal{\insertshorttitle}{}}{}{\textbf{\insertshorttitle}}%
+      {\ifthenelse{\equal{\insertsectionhead}{}}{}{{\color{spijker-blauw}\hspace{2.5ex}$\blacktriangleright$\hspace{2ex}\ifthenelse{\equal{\thesection}{}}{}{\thesection.}~\insertsectionhead}}}%
+      %{\ifthenelse{\equal{\insertsubsectionhead}{}}{}{{\color{spijker-blauw}\hspace{2ex}$\rhd$\hspace{1.5ex}\it\insertsubsectionhead}}}%
+      \hfill%
+      \insertframenumber{}\,/\,\inserttotalframenumber%
+    \end{beamercolorbox}%
+  }%
 }
 
 % ==========================================================================
