@@ -119,10 +119,13 @@
 \RequirePackage[dutch]{babel}
 \selectlanguage{dutch}
 
+% common
+%\RequirePackage{calc}
+\RequirePackage{xparse}
+\RequirePackage{environ}
+
 \ifbool{asospijker@article}
 {%
-  % \RequirePackage{calc}
-  \RequirePackage{xparse}
   \ifasospijker@dubbelzijdig
     \RequirePackage[left=2.2cm, right=1.4cm, top=1.3cm, bottom=2.5cm, twoside]{geometry}
   \else
@@ -138,7 +141,6 @@
   \RequirePackage[inline]{enumitem}
   \RequirePackage[framemethod=tikz]{mdframed}
   \RequirePackage[hidelinks]{hyperref}
-  \RequirePackage{environ}
   \RequirePackage{subcaption}
   \RequirePackage{lastpage}
   \RequirePackage{fancyhdr}
@@ -663,6 +665,8 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 \newcommand{\marginlabel}[1]{\marginnote{\sffamily\scriptsize#1}}
 \newcommand{\marginlabelbox}[1]{\marginlabel{\colorbox{spijker-blauw}{\color{white}#1}}}
+\newcommand{\marginlabelc}[2][spijker-blauw]{\marginnote{\sffamily\scriptsize\color{#1}#2}}
+\newcommand{\marginlabelb}[2][spijker-blauw]{\marginlabel{\colorbox{#1}{\color{white}#2}}}
 
 % --------------------------------------------------------------------------
 % article vragen
@@ -684,28 +688,6 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 }%
 \newcommand{\deelvraag}[1][]{%
     \item%
-}
-
-% --------------------------------------------------------------------------
-% article antwoord 
-\NewEnviron{antwoord}[1][Antwoord]{%
-    \medskip%
-    \noindent%
-    {\color{spijker-blauw}{\sffamily\textbf{#1:}}\quad%
-        \BODY%
-    }%
-    \bigskip%
-}%
-\NewEnviron{antwoord*}{%
-    \medskip%
-    \noindent%
-    {\color{spijker-blauw}%
-        \BODY%
-    }%
-    \bigskip%
-}%
-\newcommand{\antw}[1]{%
-    {\color{spijker-blauw}#1}%
 }
 
 % --------------------------------------------------------------------------
@@ -796,6 +778,9 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 \AtBeginSection[]{%
   \maketoc[currentsection]
 }
+
+%\setlength{\parskip}{\baselineskip}
+%\setlength{\parskip}{2.0ex}
 
 \newcommand{\my@beamer@setsep}{%
 \ifnum\@itemdepth=1\relax
@@ -897,7 +882,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   \begin{tikzpicture}[remember picture, overlay]%
     \node[shift={(-1.5ex, 0)}, at=(current page.north east), anchor=north east,%
           rectangle, draw, color=#1, minimum height=1cm, fill=#1]%
-      {\color{#2}\bfseries\sffamily#3};%
+      {\color{#2}\bfseries\sffamily #3};%
   \end{tikzpicture}%
 }
 
@@ -922,8 +907,6 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   \node [shift={(-.5ex,4mm)},above left] at (current page.south east) {\tiny#2};%
 }
 
-\newcommand{\link}[2]{\href{#1}{\color{spijker-blauw}\underline{#2}}}
-
 % --------------------------------------------------------------------------
 % spijkerbeamer template
 
@@ -943,6 +926,26 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   }%
 }
 
+% --------------------------------------------------------------------------
+% spijkerbeamer environments
+
+% inline itemize
+\newenvironment{iitemize}{%
+ \let\par\relax%
+ \def\item{\usebeamertemplate{itemize item}\hspace{1mm}}
+ \leavevmode%
+}{}
+
+% inline enumerate
+\newenvironment{ienumerate}{%
+ \let\par\relax%
+ \setcounter{enumi}{1}%
+ \def\item{\usebeamertemplate{enumerate  item} \stepcounter{enumi}}%
+ \leavevmode%
+}{%
+ \setcounter{enumi}{0}%
+}
+
 % ==========================================================================
 }
 % ==========================================================================
@@ -951,6 +954,29 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 % underline with linebreaks
 % ==========================================================================
 %\renewcommand{\underline}[1]{\ul{#1}}
+
+% ==========================================================================
+% antwoord
+% ==========================================================================
+\NewEnviron{antwoord}[1][Antwoord]{%
+    \medskip%
+    \noindent%
+    {\color{spijker-blauw}{\sffamily\textbf{#1:}}\quad%
+        \BODY%
+    }%
+    \bigskip%
+}%
+\NewEnviron{antwoord*}{%
+    \medskip%
+    \noindent%
+    {\color{spijker-blauw}%
+        \BODY%
+    }%
+    \bigskip%
+}%
+\newcommand{\antw}[1]{%
+    {\color{spijker-blauw}#1}%
+}
 
 % ==========================================================================
 % cancelto down arrow
@@ -1096,10 +1122,30 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 \newcommand*\der{\mathrm{d}}
 \newcommand*\g{9{,}81\,\text{m/s}^2}
 
+% Syntax: \colorboxed[<color model>]{<color specification>}{<math formula>}
+\newcommand*{\colorboxed}{}
+\def\colorboxed#1#{%
+  \colorboxedAux{#1}%
+}
+\newcommand*{\colorboxedAux}[3]{%
+  % #1: optional argument for color model
+  % #2: color specification
+  % #3: formula
+  \begingroup
+    \colorlet{cb@saved}{.}%
+    \color#1{#2}%
+    \boxed{%
+      \color{cb@saved}%
+      #3%
+    }%
+  \endgroup
+}
+
 % ==========================================================================
 % other commands
 % ==========================================================================
 \newcommand*\Capstone[0]{\emph{Capstone}\ }
+\newcommand{\link}[2]{\href{#1}{\color{spijker-blauw}\underline{#2}}}
 
 % ==========================================================================
 \endinput
