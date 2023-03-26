@@ -87,8 +87,14 @@ Genereer genummerde vragen met punten vooraan in het vet (een aangepaste `enumer
 
    \vraag[3pt] Een grote vraag met deelvragen
 
-    \begin{deelvragen}
+    \begin{deelvragen}[series=reeks1]
         \deelvraag ...
+        \deelvraag ...
+    \end{deelvragen}
+
+    ...
+
+    \begin{deelvragen}[resume=reeks1]
         \deelvraag ...
     \end{deelvragen}
  
