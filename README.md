@@ -55,7 +55,7 @@ Voorgedefiniëerde control sequences kunnen nog steeds aangepast worden.
 
 | Syntax | Omschrijving |
 | ------ | ------------ |
-| `nogrm` | Laat het gebruik van het `grafische rekenmachine` *niet* toe. Standaard is `grm` (wel toegelaten). |
+| `nogrm` | Laat het gebruik van het `grafisch rekentoestel` *niet* toe. Standaard is `grm` (wel toegelaten). |
 | `fb` | Laat het gebruik van het `formulebladen` toe. Standaard is `nofb` (niet toegelaten). |
 
 ### Control sequences voor `\maketitle`
