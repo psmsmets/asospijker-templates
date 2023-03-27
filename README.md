@@ -38,8 +38,9 @@ Alle bovenstaande package-opties herdefiniëren de `\maketitle` functie.
 
 | Syntax | Omschrijving |
 | ------ | ------------ |
-| `evaluatie` | Voegt een evaluatietabel toe aan de `test` en `taak` hoofdingen. |
 | `dubbelzijdig` | Asymmetrische marges voor dubbelzijdig printen en inbinden. |
+| `evaluatie` | Voegt een evaluatietabel toe aan de `test` en `taak` hoofdingen. |
+| `indent` | Laat paragrafen inspringen. Standaard is `noindent`. |
 | `print` | Veranderen kleuren in grijswaarden (niet bij afbeeldingen). Standaard is `screen`. |
 | `show` | Maak de `antwoorden` onderaan het document leesbaar. Standaard is `hide`. |
 
@@ -51,6 +52,11 @@ Alle bovenstaande package-opties herdefiniëren de `\maketitle` functie.
 | `wiskunde` | Aangepaste control squences per hoofding voor het vak wiskunde. Baseline wordt `barst van wiskunde`. |
 
 Voorgedefiniëerde control sequences kunnen nog steeds aangepast worden.
+
+| Syntax | Omschrijving |
+| ------ | ------------ |
+| `nogrm` | Laat het gebruik van het `grafische rekenmachine` *niet* toe. Standaard is `grm` (wel toegelaten). |
+| `fb` | Laat het gebruik van het `formulebladen` toe. Standaard is `nofb` (niet toegelaten). |
 
 ### Control sequences voor `\maketitle`
 
