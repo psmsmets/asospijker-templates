@@ -88,6 +88,9 @@
 \DeclareBoolOption[false]{logo}
 
 \DeclareBoolOption[false]{evaluatie}
+\DeclareBoolOption[false]{zelfevaluatie}
+\DeclareBoolOption[false]{feedback}
+\DeclareBoolOption[false]{remediering}
 
 \DeclareBoolOption[false]{wiskunde}
 \DeclareBoolOption[false]{fysica}
@@ -534,7 +537,16 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
       \ifasospijker@test
         \headertest%
         \ifasospijker@evaluatie
-          \\[.5em]{\rmfamily \scriptsize \evaluatie}%
+          \\[.5em]{\rmfamily \scriptsize \zelfevaluatie\feedback\remediering}%
+        \fi
+        \ifasospijker@zelfevaluatie
+          \\[.5em]{\rmfamily \scriptsize \zelfevaluatie}%
+        \fi
+        \ifasospijker@feedback
+          {\rmfamily \scriptsize \feedback}%
+        \fi
+        \ifasospijker@remediering
+          {\rmfamily \scriptsize \remediering}%
         \fi
         \\[.5em]{\rmfamily \small \textsl{\@toelichting}}%
       \else
@@ -575,7 +587,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     }%
 }
 
-\newcommand\evaluatie{%
+\newcommand\zelfevaluatie{%
   % check
   \@asospijker@inputrequired{\@leerplandoelen}{\leerplandoelen}
   \@asospijker@inputrequired{\@lesdoelen}{\lesdoelen}
@@ -584,25 +596,29 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   \scriptsize%
   \begin{tabularx}{\textwidth}{ |X m{2.5cm} m{2.5cm} m{2.5cm}| }%
     \hline%
-    \multicolumn{4}{|l|}{\textbf{Te evalueren leerplandoelen}} \\%
-    \hline%
-    \multicolumn{4}{|l|}{\@leerplandoelen} \\%
+    \multicolumn{1}{|l}{\textbf{Te evalueren leerplandoelen}} & %
+    \multicolumn{3}{l|}{\@leerplandoelen} \\%
     \hline%
     \multicolumn{4}{|l|}{\textbf{Zelfevaluatie na de test (deze vul je zelf in!)}} \\%
     \hline%
     De leerstof was voor mij & gemakkelijk & gemiddeld & moeilijk \\%
     Mijn voorbereidingstijd (\thickspace\ldots u \thickspace\ldots min) was & te kort & voldoende & te lang \\%
     Ik heb een schriftelijke voorbereiding gemaakt (van de theorie) & ja & nee & \\%
-    Ik heb een aantal oefeningen op papier opnieuw gemaakt & ja, 5 of meer & ja, 2 tot 4 & nee, 1 of geen \\
+    Ik heb een aantal oefeningen op papier opnieuw gemaakt & ja, 5 of meer & ja, 2 tot 4 & nee, 1 of geen \\%
     Ik verwacht \thickspace\ldots\ldots / \@cijfer\ als resultaat. & & & \\%
     \hline%
   \end{tabularx}%
+}
+
+\newcommand\feedback{%
   \\[-1pt]%
-  \begin{tabularx}{\textwidth}{ |X m{7cm}| }%
+  \renewcommand*{\arraystretch}{1.1}%
+  \begin{tabularx}{\textwidth}{ |X m{7.5cm}| }%
     \multicolumn{2}{|l|}{\textbf{Feedback (van de leerkracht)}} \\%
     \hline%
     Algemeen: & Dit ken/kan je onvoldoende: \\%
     \hline%
+    \renewcommand*{\arraystretch}{1}%
     \begin{tabular}[t]{@{}p{\textwidth}}%
         $\circ$~~Je maakt weinig tot geen fouten, deze leerstof heb je begrepen.\\%
         $\circ$~~De leerstof is onvoldoende gekend.\\%
@@ -616,7 +632,11 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \\%
     \hline%
   \end{tabularx}%
+}
+
+\newcommand\remediering{%
   \\[-1pt]%
+  \renewcommand*{\arraystretch}{1}%
   \begin{tabularx}{\textwidth}{|X|}%
     \textbf{Afgesproken remedi\"ering}\\%
     \hline%

@@ -39,10 +39,18 @@ Alle bovenstaande package-opties herdefiniëren de `\maketitle` functie.
 | Syntax | Omschrijving |
 | ------ | ------------ |
 | `dubbelzijdig` | Asymmetrische marges voor dubbelzijdig printen en inbinden. |
-| `evaluatie` | Voegt een evaluatietabel toe aan de `test` en `taak` hoofdingen. |
 | `indent` | Laat paragrafen inspringen. Standaard is `noindent`. |
 | `print` | Veranderen kleuren in grijswaarden (niet bij afbeeldingen). Standaard is `screen`. |
 | `show` | Maak de `antwoorden` onderaan het document leesbaar. Standaard is `hide`. |
+
+### Evaluatie
+
+| Syntax | Omschrijving |
+| ------ | ------------ |
+| `evaluatie` | Voegt een volledige evaluatietabel (`zelfevaluatie` + `feedback` + `remediering`)toe aan de `test` en `taak` hoofdingen. |
+| `zelfevaluatie` | Voegt de zelfevaluatietabel toe aan de `test` en `taak` hoofdingen. |
+| `feedback` | Voegt de feedbacktabel toe aan de `test` en `taak` hoofdingen. |
+| `remediering` | Voegt de remedieringstabel toe aan de `test` en `taak` hoofdingen. |
 
 ### Voorgedefiniëerde vakken
 
