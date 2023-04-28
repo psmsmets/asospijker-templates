@@ -6,6 +6,16 @@ Documentation and syntax are in Dutch.
 
 ## Algemeen
 
+```
+\usepackage{asospijker}
+
+\titel{asospijker-templates}
+
+\begin{document}
+    \maketitle
+\end{document}
+```
+
 ### Huisstijl kleuren
 
 | Syntax | RGB | grijswaarde |
