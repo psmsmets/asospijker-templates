@@ -4,19 +4,9 @@ ASO Spijker LaTeX templates for article and beamers.
 
 Documentation and syntax are in Dutch.
 
-## Algemeen
 
-```
-\usepackage{asospijker}
-
-\titel{asospijker-templates}
-
-\begin{document}
-    \maketitle
-\end{document}
-```
-
-### Huisstijl kleuren
+## Huisstijl
+Gedefiniëerde kleuren volgens de ASO Spijker huisstijl.
 
 | Syntax | RGB | grijswaarde |
 | ----------- | ----------- | ----------- |
@@ -29,7 +19,18 @@ Extra varianten
  * 15% donkerder: `spijker-donkerblauw`, `spijker-donkergeel`, `spijker-donkerrood`
  * 15% lichter: `spijker-lichtblauw`, `spijker-lichtgeel`
 
-## documentclass = article
+
+## \documentclass{article}
+
+```
+\usepackage[]{asospijker}
+
+\titel{asospijker-templates}
+
+\begin{document}
+    \maketitle
+\end{document}
+```
 
 ### Types hoofding voor `\maketitle`
 
@@ -203,7 +204,8 @@ bcancelto[..]{...}{...}
 \end{document}
 ```
 
-## documentclass = beamer
+
+## \documentclass{beamer}
 
 Deze template is nog in ontwikkeling.
 
