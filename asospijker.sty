@@ -131,6 +131,7 @@
 %\RequirePackage{calc}
 \RequirePackage{xparse}
 \RequirePackage{environ}
+\RequirePackage{xspace}
 
 \ifbool{asospijker@article}
 {%
@@ -312,6 +313,14 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 \newcommand\lesdoelen[1]{\renewcommand\@lesdoelen{#1}}
 \newcommand\@lesdoelen{}
+
+\newcommand\feedbacklijst[1]{\renewcommand\@feedbacklijst{#1}}
+\newcommand\@feedbacklijst{%
+{Je maakt weinig tot geen fouten, deze leerstof heb je begrepen.},%
+{De leerstof is onvoldoende gekend.},%
+{Je kan de leerstof onvoldoende toepassen in ongeziene oefeningen.},%
+{Je kan de leerstof onvoldoende juist verwoorden.}%
+}
 
 \newcommand\baseline[1]{\renewcommand\@baseline{#1}}
 \newcommand\@baseline{\ifthenelse{\equal{\@vak}{}}{goesting}{barst~van~\@vak}}
@@ -591,6 +600,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   % check
   \@asospijker@inputrequired{\@leerplandoelen}{\leerplandoelen}
   \@asospijker@inputrequired{\@lesdoelen}{\lesdoelen}
+  \@asospijker@inputrequired{\@feedbacklijst}{\feedbacklijst}
   %
   \renewcommand*{\arraystretch}{1.3}%
   \scriptsize%
@@ -620,10 +630,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \hline%
     \renewcommand*{\arraystretch}{1}%
     \begin{tabular}[t]{@{}p{\textwidth}}%
-        $\circ$~~Je maakt weinig tot geen fouten, deze leerstof heb je begrepen.\\%
-        $\circ$~~De leerstof is onvoldoende gekend.\\%
-        $\circ$~~Je kan de leerstof onvoldoende toepassen in ongeziene oefeningen.\\%
-        $\circ$~~Je kan de leerstof onvoldoende juist verwoorden.\\%
+        \sets{\@feedbacklijst}%
     \end{tabular}%
     &%
     \begin{tabular}[t]{@{}p{\textwidth}}%
@@ -1169,7 +1176,7 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 % ==========================================================================
 % other commands
 % ==========================================================================
-\newcommand*\Capstone[0]{\emph{Capstone}\ }
+\newcommand*\Capstone[0]{\emph{Capstone}\xspace}
 \newcommand{\link}[2]{\href{#1}{\color{spijker-blauw}\underline{#2}}}
 
 % ==========================================================================
