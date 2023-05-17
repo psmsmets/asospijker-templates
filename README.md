@@ -96,6 +96,7 @@ Alle mogelijke control sequences voor de verschillende hoofdingen. Niet alle com
 | `\toelichting{}` | v | o | o | - |
 | `\leerplandoelen{}` | - | o | - | - |
 | `\lesdoelen{}` | - | o | - | - |
+| `\feedbacklijst{}` | - | o | - | - |
 
 v = verplicht, o = optioneel, - = niet getoond
 
