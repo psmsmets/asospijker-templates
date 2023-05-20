@@ -322,6 +322,14 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 {Je kan de leerstof onvoldoende juist verwoorden.}%
 }
 
+\newcommand\remedieringslijst[1]{\renewcommand\@remedieringslijst{#1}}
+\newcommand\@remedieringslijst{%
+{Geen verplichte remedi\"ering, maar je beheerst de leerstof nog onvoldoende.},%
+{Je verbetert deze test in het groen en geeft deze verbetering af ter controle.},%
+{Je maakt extra oefeningen op deze leerstof en geeft deze af ter controle. Oefeningen:},%
+{Je maakt een schematische samenvatting van deze leerstof en geeft deze af ter controle.}%
+}
+
 \newcommand\baseline[1]{\renewcommand\@baseline{#1}}
 \newcommand\@baseline{\ifthenelse{\equal{\@vak}{}}{goesting}{barst~van~\@vak}}
 
@@ -642,15 +650,19 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 }
 
 \newcommand\remediering{%
+  % check
+  \@asospijker@inputrequired{\@remedieringslijst}{\remedieringslijst}
+  %
   \\[-1pt]%
-  \renewcommand*{\arraystretch}{1}%
+  \renewcommand*{\arraystretch}{1.1}%
   \begin{tabularx}{\textwidth}{|X|}%
     \textbf{Afgesproken remedi\"ering}\\%
     \hline%
-    $\circ$~~Geen verplichte remedi\"ering, maar je beheerst de leerstof nog onvoldoende. \\%
-    $\circ$~~Je verbetert deze test in het groen en geeft deze verbetering af ter controle. \\%
-    $\circ$~~Je maakt extra oefeningen op deze leerstof en geeft deze af ter controle. Oefeningen: \\%
-    $\circ$~~Je maakt een schematische samenvatting van deze leerstof en geeft deze af ter controle. \\%
+    \renewcommand*{\arraystretch}{1}%
+    \begin{tabular}[t]{@{}p{\textwidth}}%
+        \sets{\@remedieringslijst}%
+    \end{tabular}%
+    \\%
     \hline%
   \end{tabularx}%
 }

@@ -63,6 +63,8 @@ Alle bovenstaande package-opties herdefiniëren de `\maketitle` functie.
 | `feedback` | Voegt de feedbacktabel toe aan de `test` en `taak` hoofdingen. |
 | `remediering` | Voegt de remedieringstabel toe aan de `test` en `taak` hoofdingen. |
 
+Je kan de voorgedefiëneerde lijsten met `feedback` en `remediëring` aanpassen via de variabelen `\feedbacklijst` en `\remedieringslijst`.
+
 ### Voorgedefiniëerde vakken
 
 | Syntax | Omschrijving |
@@ -97,6 +99,7 @@ Alle mogelijke control sequences voor de verschillende hoofdingen. Niet alle com
 | `\leerplandoelen{}` | - | o | - | - |
 | `\lesdoelen{}` | - | o | - | - |
 | `\feedbacklijst{}` | - | o | - | - |
+| `\remedieringslijst{}` | - | o | - | - |
 
 v = verplicht, o = optioneel, - = niet getoond
 
