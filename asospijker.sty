@@ -106,7 +106,7 @@
 \DeclareBoolOption[false]{dubbelzijdig}
 \DeclareComplementaryOption{enkelzijdig}{dubbelzijdig}
 
-\DeclareBoolOption[true]{hide}
+\DeclareBoolOption[false]{hide}
 \DeclareComplementaryOption{show}{hide}
 
 \DeclareBoolOption[true]{screen}
@@ -528,7 +528,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 \newcommand\headerdefault{%
   % check
-  \@asospijker@inputrequired{\@titel}{\titel}
+  %\@asospijker@inputrequired{\@titel}{\titel}
   %
   \ifasospijker@logo
     \includegraphics[height=1.2cm]{\spijkerlogofile} \smallskip \\
@@ -630,17 +630,18 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 \newcommand\feedback{%
   \\[-1pt]%
-  \renewcommand*{\arraystretch}{1.1}%
+  \renewcommand*{\arraystretch}{1.3}%
   \begin{tabularx}{\textwidth}{ |X m{7.5cm}| }%
     \multicolumn{2}{|l|}{\textbf{Feedback (van de leerkracht)}} \\%
     \hline%
     Algemeen: & Dit ken/kan je onvoldoende: \\%
     \hline%
-    \renewcommand*{\arraystretch}{1}%
+    \renewcommand*{\arraystretch}{1.1}%
     \begin{tabular}[t]{@{}p{\textwidth}}%
         \sets{\@feedbacklijst}%
     \end{tabular}%
     &%
+    \renewcommand*{\arraystretch}{1.1}%
     \begin{tabular}[t]{@{}p{\textwidth}}%
         \sets{\@lesdoelen}%
     \end{tabular}%
@@ -654,11 +655,11 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   \@asospijker@inputrequired{\@remedieringslijst}{\remedieringslijst}
   %
   \\[-1pt]%
-  \renewcommand*{\arraystretch}{1.1}%
+  \renewcommand*{\arraystretch}{1.3}%
   \begin{tabularx}{\textwidth}{|X|}%
     \textbf{Afgesproken remedi\"ering}\\%
     \hline%
-    \renewcommand*{\arraystretch}{1}%
+    \renewcommand*{\arraystretch}{1.1}%
     \begin{tabular}[t]{@{}p{\textwidth}}%
         \sets{\@remedieringslijst}%
     \end{tabular}%
@@ -769,6 +770,14 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \ifasospijker@hide
         }%}%
     \fi
+}%
+
+% --------------------------------------------------------------------------
+% article various
+\newcommand\blankpage{%
+    \newpage%
+    \null%
+    \newpage%
 }%
 
 % ==========================================================================
@@ -1019,7 +1028,11 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \bigskip%
 }%
 \newcommand{\antw}[1]{%
-    {\color{spijker-blauw}#1}%
+    \ifasospijker@hide
+        {}%
+    \else
+        {\color{spijker-blauw}#1}%
+    \fi
 }
 
 % ==========================================================================

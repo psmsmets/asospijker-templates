@@ -91,7 +91,7 @@ Alle mogelijke control sequences voor de verschillende hoofdingen. Niet alle com
 | `\klas{}` | v | o | - | - |
 | `\naam{}` | o | o | - | - |
 | `\voornaam{}` | o | o | - | - |
-| `\titel{}` | o | o | o | v |
+| `\titel{}` | o | o | o | o |
 | `\cijfer{}` | v | o | o | - |
 | `\datum{}` | v | o | o | o |
 | `\hulpmiddelen{}` | v | - | - | - |
