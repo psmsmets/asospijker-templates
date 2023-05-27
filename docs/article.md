@@ -23,6 +23,7 @@
 
 Alle bovenstaande package-opties herdefiniëren de `\maketitle` functie.
 
+
 ## Algemene opties
 
 | Syntax | Omschrijving |
@@ -32,16 +33,6 @@ Alle bovenstaande package-opties herdefiniëren de `\maketitle` functie.
 | `print` | Veranderen kleuren in grijswaarden (niet bij afbeeldingen). Standaard is `screen`. |
 | `show` | Maak de `antwoorden` onderaan het document leesbaar. Standaard is `hide`. |
 
-## Evaluatie
-
-| Syntax | Omschrijving |
-| ------ | ------------ |
-| `evaluatie` | Voegt een volledige evaluatietabel (`zelfevaluatie` + `feedback` + `remediering`)toe aan de `test` en `taak` hoofdingen. |
-| `zelfevaluatie` | Voegt de zelfevaluatietabel toe aan de `test` en `taak` hoofdingen. |
-| `feedback` | Voegt de feedbacktabel toe aan de `test` en `taak` hoofdingen. |
-| `remediering` | Voegt de remedieringstabel toe aan de `test` en `taak` hoofdingen. |
-
-Je kan de voorgedefiëneerde lijsten met `feedback` en `remediëring` aanpassen via de variabelen `\feedbacklijst` en `\remedieringslijst`.
 
 ## Voorgedefiniëerde vakken
 
@@ -56,6 +47,7 @@ Voorgedefiniëerde control sequences kunnen nog steeds aangepast worden.
 | ------ | ------------ |
 | `nogrm` | Laat het gebruik van het `grafisch rekentoestel` *niet* toe. Standaard is `grm` (wel toegelaten). |
 | `fb` | Laat het gebruik van het `formulebladen` toe. Standaard is `nofb` (niet toegelaten). |
+
 
 ## Control sequences voor `\maketitle`
 
@@ -80,6 +72,17 @@ Alle mogelijke control sequences voor de verschillende hoofdingen. Niet alle com
 | `\remedieringslijst{}` | - | o | - | - |
 
 v = verplicht, o = optioneel, - = niet getoond
+
+## Evaluatie
+
+| Syntax | Omschrijving |
+| ------ | ------------ |
+| `evaluatie` | Voegt een volledige evaluatietabel (`zelfevaluatie` + `feedback` + `remediering`)toe aan de `test` en `taak` hoofdingen. |
+| `zelfevaluatie` | Voegt de zelfevaluatietabel toe aan de `test` en `taak` hoofdingen. |
+| `feedback` | Voegt de feedbacktabel toe aan de `test` en `taak` hoofdingen. |
+| `remediering` | Voegt de remedieringstabel toe aan de `test` en `taak` hoofdingen. |
+
+Je kan de voorgedefiëneerde lijsten met `feedback` en `remediëring` aanpassen via de variabelen `\feedbacklijst` en `\remedieringslijst`.
 
 ## Environments
 
