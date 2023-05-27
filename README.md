@@ -111,11 +111,11 @@ De omgeving `vragen` is een aangepaste `enumerate` lijst met aangepaste vertical
 ```
 \begin{vragen}
 
-   \vraag[2] Eerste vraag ...
+   \vraag[2] Eerste vraag ... % deze punten worden opgeteld bij het totale cijfer
 
-   \vraag[1] Andere vraag ...
+   \vraag[1 pt] Andere vraag ...
 
-   \vraag[3] Een grote vraag met deelvragen
+   \vraag[3 ptn] Een grote vraag met deelvragen
 
     \begin{deelvragen}[series=reeks1]
         \deelvraag ...
@@ -203,18 +203,33 @@ bcancelto[..]{...}{...}
 ```
 \documentclass[11pt, a4paper]{article}
 
-\usepackage[fysica, test]{asospijker}
+\usepackage[fysica, test, puntenmarge]{asospijker}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \module{Test}
 \titel{Thema 1}
 \leerkracht{P. Smets}
-\cijfer{20}
+\cijfer{\totaal}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
 \maketitle
+
+\begin{vragen}
+
+    \vraag[3] Eerste vraag ...
+
+    \vraag[7] Andere vraag ...
+
+    \vraag[10] Een grote vraag met wat deelvragen.
+    \begin{deelvragen}
+        \deelvraag[2] ...
+        \deelvraag[5] ...
+        \deelvraag[3] ...
+    \end{deelvragen}
+
+\end{vragen}
 
 \end{document}
 ```
