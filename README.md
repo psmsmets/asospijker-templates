@@ -106,15 +106,16 @@ v = verplicht, o = optioneel, - = niet getoond
 ### Environments
 
 #### vragen
-Genereer genummerde vragen met punten vooraan in het vet (een aangepaste `enumerate` lijst met aangepaste verticale marges):
+Genereer genummerde vragen met punten ofwel vooraan in het vet ofwel in de marge in een kader.
+De omgeving `vragen` is een aangepaste `enumerate` lijst met aangepaste verticale marges.
 ```
 \begin{vragen}
 
-   \vraag[2pt] Eerste vraag ...
+   \vraag[2] Eerste vraag ...
 
-   \vraag[1pt] Andere vraag ...
+   \vraag[1] Andere vraag ...
 
-   \vraag[3pt] Een grote vraag met deelvragen
+   \vraag[3] Een grote vraag met deelvragen
 
     \begin{deelvragen}[series=reeks1]
         \deelvraag ...
@@ -129,6 +130,16 @@ Genereer genummerde vragen met punten vooraan in het vet (een aangepaste `enumer
  
 \end{vragen}
 ```
+
+De functie `\vraag` is een uitbreiding op `\item` waar je optioneel het aantal punten van de vraag kan meegeven. 
+Geef je enkel een getal als argument dan wordt ook het totale cijfer bepaald in de variable `\totaal`. 
+Bij de weergave wordt automatisch de eenheid `pt(n)` toegevoegd. 
+
+Om het cijfer van je test automatisch te laten uitrekenen zet je in de hoofding.
+```
+\cijfer{\totaal}
+```
+Je moet 2x compileren om het correcte cijfer te verkrijgen.
 
 #### antwoord en antwoord*
 Genereer een antwoordveld in `Spijker-blauw` startend met `Antwoord: `:

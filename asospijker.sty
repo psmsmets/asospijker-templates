@@ -112,6 +112,8 @@
 \DeclareBoolOption[true]{screen}
 \DeclareComplementaryOption{print}{screen}
 
+\DeclareBoolOption[false]{puntenmarge}
+
 % process options
 \ProcessKeyvalOptions*\relax
 
@@ -136,9 +138,9 @@
 \ifbool{asospijker@article}
 {%
   \ifasospijker@dubbelzijdig
-    \RequirePackage[left=2.2cm, right=1.4cm, top=1.3cm, bottom=2.5cm, twoside]{geometry}
+    \RequirePackage[left=2.2cm, right=1.4cm, top=1.3cm, bottom=2.5cm, marginparsep=0em, twoside]{geometry}
   \else
-    \RequirePackage[left=1.8cm, right=1.8cm, top=1.3cm, bottom=2.5cm]{geometry}
+    \RequirePackage[left=1.8cm, right=1.8cm, top=1.3cm, bottom=2.5cm, marginparsep=0em]{geometry}
   \fi
   \RequirePackage[usenames,dvipsnames,svgnames,x11names]{xcolor}
   \RequirePackage{graphicx}
@@ -156,7 +158,8 @@
   \RequirePackage{soul}
   \RequirePackage[]{titlesec}
   \RequirePackage{listings}
-  \RequirePackage{marginnote}
+  \RequirePackage[noparboxrestore]{marginnote}
+  \RequirePackage{totcount}
 }
 
 \ifbool{asospijker@beamer}
@@ -715,6 +718,18 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 % --------------------------------------------------------------------------
 % article vragen
+\newtotcounter{vragen}
+\newtotcounter{totaal}
+\newcommand*\totaal{\thetotaal@totc}
+
+\def\isnum#1{%
+    \if!\ifnum9<1#1!\fi%
+        TRUE%
+    \else#1%
+        FALSE%
+    \fi%
+}%
+
 \NewEnviron{vragen}[1][]{%
     \noindent%
     \begin{enumerate}[label={\arabic*.}, itemsep=1.8em, #1]%
@@ -722,7 +737,18 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \end{enumerate}%
 }%
 \newcommand{\vraag}[1][]{%
-    \item \ifthenelse{\equal{#1}{}}{}{\textbf{(#1)}}%
+    \stepcounter{vragen}%
+    \item%
+    \ifthenelse{\equal{\isnum{#1}}{TRUE}}{%
+        \addtocounter{totaal}{#1}%
+        \ifasospijker@puntenmarge%
+            \hspace{-1ex}\marginnote{\fbox{\sffamily\small\textbf{~~~/#1}}}[-1.8pt]%
+        \else%
+            \textbf{(#1~\ifthenelse{\equal{#1}{1}}{pt}{ptn})}%
+        \fi%
+    }{%
+        \ifthenelse{\equal{#1}{}}{}{\textbf{(#1)}}%
+    }%
 }
 
 \NewEnviron{deelvragen}[1][]{%
@@ -733,7 +759,22 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 }%
 \newcommand{\deelvraag}[1][]{%
     \item%
+    \ifthenelse{\equal{\isnum{#1}}{TRUE}}{%
+        \ifasospijker@puntenmarge%
+            \hspace{-1ex}\marginnote{\sffamily\small/#1}%
+        \else%
+            {(#1~\ifthenelse{\equal{#1}{1}}{pt}{ptn})}%
+        \fi%
+    }{%
+        \ifthenelse{\equal{#1}{}}{}{{(#1)}}%
+    }%
 }
+
+\typeout{*********************************************************************}
+\typeout{Vragen}
+\typeout{\space\space o aantal : \thevragen@totc}
+\typeout{\space\space o totaal : \totaal ptn}
+\typeout{*********************************************************************}
 
 % --------------------------------------------------------------------------
 % article antwoorden
