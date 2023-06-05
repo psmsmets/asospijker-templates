@@ -81,6 +81,7 @@
 }
 
 % user options
+\DeclareBoolOption[false]{mondeling}
 \DeclareBoolOption[false]{proefwerk}
 \DeclareBoolOption[false]{test}
 \DeclareBoolOption[false]{practicum}
@@ -431,6 +432,40 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   \ldots \slash\ifthenelse{\equal{\@cijfer}{}}{\ldots}{\,\@cijfer}%
 }
 
+\newcommand\headerproefwerkmondeling{%
+  % check
+  \@asospijker@inputrequired{\@vak}{\vak}
+  \@asospijker@inputrequired{\@leerkracht}{\leerkracht}
+  \@asospijker@inputrequired{\@klas}{\klas}
+  \@asospijker@inputrequired{\@datum}{\datum}
+  \@asospijker@inputrequired{\@hulpmiddelen}{\hulpmiddelen}
+  %
+  \asospijker@titellijnfalse%
+  \begingroup%
+  \renewcommand*{\arraystretch}{1.5}%
+  \begin{tabularx}{\textwidth}{ |>{\centering\arraybackslash}m{3cm}%
+                                |>{\centering\arraybackslash}m{5cm}%
+                                |>{\arraybackslash}X%
+                                |>{\centering\arraybackslash}m{1.5cm} | }%
+    \hline%
+    \spijkerlogo{width=\linewidth}%
+    &%
+      {\centering%
+        \textbf{\Large\@vak} \\%
+        \textit{\footnotesize \@leerkracht} \\%
+        {\normalsize \@klas} \\%
+        {\normalsize \@datum}%
+      }%
+    & \headerlln%
+    & {\large \headercijfer}%
+    \\%
+    \hline%
+    \multicolumn{4}{|l|}{Toegestane hulpmiddelen: \@hulpmiddelen} \\%
+    \hline%
+  \end{tabularx}%
+  \endgroup%
+}
+
 \newcommand\headerproefwerk{%
   % check
   \@asospijker@inputrequired{\@vak}{\vak}
@@ -569,11 +604,16 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
           {\rmfamily \scriptsize \remediering}%
         \fi
         \\[.5em]{\rmfamily \small \textsl{\@toelichting}}%
-      \else
-        \ifasospijker@practicum
-          \headerpracticum%
-        \else
-          \headerdefault%
+      \else 
+	\ifasospijker@mondeling
+	  \headerproefwerkmondeling%
+           \\[.5em]{\rmfamily \small \textsl{\@toelichting}}%
+	\else
+          \ifasospijker@practicum
+            \headerpracticum%
+	  \else
+            \headerdefault%
+	  \fi
         \fi
       \fi
     \fi
@@ -1219,6 +1259,11 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 \providecommand{\norm}[1]{\left\lVert#1\right\rVert}
 \newcommand*\der{\mathrm{d}}
 \newcommand*\g{9{,}81\,\text{m/s}^2}
+\newcommand*\C{^\circ\text{C}}
+\newcommand*\JC{\tfrac{\text{J}}{\C}}
+\newcommand*\JkgC{\tfrac{\text{J}}{\text{kg}\,\C}}
+\newcommand*\JkgK{\tfrac{\text{J}}{\text{kg\,K}}}
+
 
 % Syntax: \colorboxed[<color model>]{<color specification>}{<math formula>}
 \newcommand*{\colorboxed}{}
@@ -1242,7 +1287,7 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 % ==========================================================================
 % other commands
 % ==========================================================================
-\newcommand*\Capstone[0]{\emph{Capstone}\xspace}
+\newcommand*\Capstone{\emph{Capstone}\xspace}
 \newcommand{\link}[2]{\href{#1}{\color{spijker-blauw}\underline{#2}}}
 
 % ==========================================================================
