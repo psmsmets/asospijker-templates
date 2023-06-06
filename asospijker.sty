@@ -81,12 +81,14 @@
 }
 
 % user options
-\DeclareBoolOption[false]{mondeling}
 \DeclareBoolOption[false]{proefwerk}
 \DeclareBoolOption[false]{test}
 \DeclareBoolOption[false]{practicum}
 \DeclareBoolOption[false]{taak}
 \DeclareBoolOption[false]{logo}
+
+\DeclareBoolOption[true]{schriftelijk}
+\DeclareComplementaryOption{mondeling}{schriftelijk}
 
 \DeclareBoolOption[false]{evaluatie}
 \DeclareBoolOption[false]{zelfevaluatie}
@@ -343,7 +345,9 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   \renewcommand\@vak{Wiskunde}
   \renewcommand\@baseline{barst~van~wiskunde}
   \ifasospijker@proefwerk
-    \renewcommand\@toelichting{\toelichtingProefwerkWiskunde \toelichtingSucces}
+    \ifasospijker@schriftelijk
+      \renewcommand\@toelichting{\toelichtingProefwerkWiskunde \toelichtingSucces}
+    \fi
   \fi
   \ifasospijker@test
     \renewcommand\@toelichting{\toelichtingTestWiskunde}
@@ -357,7 +361,9 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   \renewcommand\@vak{Fysica}
   \renewcommand\@baseline{barst~van~wetenschap}
   \ifasospijker@proefwerk
-    \renewcommand\@toelichting{\toelichtingProefwerkFysica \toelichtingSucces}
+    \ifasospijker@schriftelijk
+      \renewcommand\@toelichting{\toelichtingProefwerkFysica \toelichtingSucces}
+    \fi
   \fi
   \ifasospijker@test
     \renewcommand\@toelichting{\toelichtingTestFysica}
@@ -496,10 +502,12 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \hline%
     \multicolumn{4}{|l|}{Toegestane hulpmiddelen: \@hulpmiddelen} \\%
     \hline%
-    \multicolumn{3}{|l|}{De leerling heeft het nodige materiaal NIET bij zich} & \\%
-    \hline%
-    \multicolumn{3}{|l|}{Wanneer was je klaar met je proefwerk?} & \hfill:\hfill\,u\\%
-    \hline%
+    \ifasospijker@schriftelijk%
+      \multicolumn{3}{|l|}{De leerling heeft het nodige materiaal NIET bij zich} & \\%
+      \hline%
+      \multicolumn{3}{|l|}{Wanneer was je klaar met je proefwerk?} & \hfill:\hfill\,u\\%
+      \hline%
+    \fi%
   \end{tabularx}%
   \endgroup%
 }
@@ -605,16 +613,11 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
         \fi
         \\[.5em]{\rmfamily \small \textsl{\@toelichting}}%
       \else 
-	\ifasospijker@mondeling
-	  \headerproefwerkmondeling%
-           \\[.5em]{\rmfamily \small \textsl{\@toelichting}}%
+        \ifasospijker@practicum
+          \headerpracticum%
 	\else
-          \ifasospijker@practicum
-            \headerpracticum%
-	  \else
-            \headerdefault%
-	  \fi
-        \fi
+          \headerdefault%
+	\fi
       \fi
     \fi
     \bigskip

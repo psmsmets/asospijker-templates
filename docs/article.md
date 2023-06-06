@@ -14,7 +14,7 @@
 
 | Syntax | Omschrijving |
 | ----------- | ----------- |
-| `proefwerk` | Hoofding voor proefwerken. |
+| `proefwerk` | Hoofding voor proefwerken (standaard schriftelijk, optioneel mondeling). |
 | `test` | Hoofding voor testen. |
 | `taak` | Hoofding voor taken en remediëringsoefeningen. |
 | `practicum` | Hoofding voor practica. |
