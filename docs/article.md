@@ -155,6 +155,27 @@ De antwoordbox is leesbaar met de optie `show` en omgedraaid met de optie `hide`
 \end{antwoorden}
 ```
 
+### studiewijzer
+
+```
+\begin{studiewijzer}
+	\studiewijzerKennen
+	\studiewijzerKennenItem
+		{de vier gevallen voor het gedrag op oneindig van een veeltermfunctie}
+	\studiewijzerKunnen
+	\studiewijzerKunnenItem
+		{het gedrag op oneindig van veeltermfuncties noteren en interpreteren}
+		{11, 12, 13, 14, 15, 17}
+		{}
+		{67, 68, 69, 70, 71, 72, 73, 74, 75, 76}
+	\studiewijzerKunnenItem
+		{het gedrag op oneindig van veeltermfuncties gebruiken om problemen op te lossen}
+		{16}
+		{}
+		{77, 78}
+\end{studiewijzer}
+```
+
 ### labels in de kantlijn
 Je kan bij vragen ook bijvoorbeeld het cijfer of een opmerking in de kantlijn plaatsen.
 

@@ -580,7 +580,10 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \includegraphics[height=1.2cm]{\spijkerlogofile} \smallskip \\
   \fi
   {\small%
-    {\ifthenelse{\equal{\@vak}{}}{}{\textbf{\@vak}~$|$~}\ifthenelse{\equal{\@module}{}}{}{{\@module}~$|$~}\@leerkracht}%
+    {\ifthenelse{\equal{\@vak}{}}{}{\textbf{\@vak}}%
+     \ifthenelse{\equal{\@module}{}}{}{~$|$~\@module}%
+     \ifthenelse{\equal{\@leerkracht}{}}{}{~$|$~\@leerkracht}%
+    }%
     \hfill%
     {\@datum}%
   }%
@@ -764,6 +767,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 \newtotcounter{vragen}
 \newtotcounter{totaal}
 \newcommand*\totaal{\thetotaal@totc}
+\newcommand\totaalplus[1]{\the\numexpr\totaal+#1\relax}
 
 \def\isnum#1{%
     \if!\ifnum9<1#1!\fi%
@@ -855,6 +859,23 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
         }%}%
     \fi
 }%
+
+% --------------------------------------------------------------------------
+% article studiewijzer
+
+\NewEnviron{studiewijzer}{%
+    \begingroup%
+    \renewcommand*{\arraystretch}{1.5}%
+    \begin{tabularx}{\textwidth}{ |X *{3}{|m{.12\textwidth}}| }%
+        \hline%
+        \BODY%
+    \end{tabularx}%
+    \endgroup%
+}%
+\newcommand{\studiewijzerKennen}{\multicolumn{4}{|l|}{\textbf{We kennen}}\\\hline}%
+\newcommand{\studiewijzerKennenItem}[1]{\multicolumn{4}{|p{\dimexpr(\textwidth-3\tabcolsep)}|}{#1}\\\hline}%
+\newcommand{\studiewijzerKunnen}{\textbf{We kunnen}&\textbf{Klassikaal}&\textbf{PW}&\textbf{Extra}\\\hline}%
+\newcommand{\studiewijzerKunnenItem}[4]{#1&#2&#3&#4\\\hline}%
 
 % --------------------------------------------------------------------------
 % article various
