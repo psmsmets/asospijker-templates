@@ -15,6 +15,10 @@ Ga naar de documentatie van de template voor
 *    een lijst met handige/interessante packages_
 
 .. _huisstijl: docs/algemeen.md
+
 .. _article: docs/article.md
+
 .. _beamer: docs/beamer.md
+
 .. _packages: docs/packages.md
+
