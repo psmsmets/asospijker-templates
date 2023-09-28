@@ -862,8 +862,8 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 % --------------------------------------------------------------------------
 % article studiewijzer
-
-\NewEnviron{studiewijzer}{%
+\ifasospijker@wiskunde
+  \NewEnviron{studiewijzer}{%
     \begingroup%
     \renewcommand*{\arraystretch}{1.5}%
     \begin{tabularx}{\textwidth}{ |X *{3}{|m{.12\textwidth}}| }%
@@ -871,11 +871,28 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
         \BODY%
     \end{tabularx}%
     \endgroup%
-}%
-\newcommand{\studiewijzerKennen}{\multicolumn{4}{|l|}{\textbf{We kennen}}\\\hline}%
-\newcommand{\studiewijzerKennenItem}[1]{\multicolumn{4}{|p{\dimexpr(\textwidth-3\tabcolsep)}|}{#1}\\\hline}%
-\newcommand{\studiewijzerKunnen}{\textbf{We kunnen}&\textbf{Klassikaal}&\textbf{PW}&\textbf{Extra}\\\hline}%
-\newcommand{\studiewijzerKunnenItem}[4]{#1&#2&#3&#4\\\hline}%
+  }%
+  \newcommand{\studiewijzerKennen}{\multicolumn{4}{|l|}{\textbf{We kennen}}\\\hline}%
+  \newcommand{\studiewijzerKennenItem}[1]{\multicolumn{4}{|p{\dimexpr(\textwidth-3\tabcolsep)}|}{#1}\\\hline}%
+  \newcommand{\studiewijzerKunnen}{\textbf{We kunnen}&\textbf{Klassikaal}&\textbf{PW}&\textbf{Extra}\\\hline}%
+  \newcommand{\studiewijzerKunnenItem}[4]{#1&#2&#3&#4\\\hline}%
+\fi
+\ifasospijker@fysica
+  \NewEnviron{studiewijzer}{%
+    \begingroup%
+    \renewcommand*{\arraystretch}{1.5}%
+    \begin{tabularx}{\textwidth}{ |X *{1}{|m{.24\textwidth}}| }%
+        \hline%
+        \BODY%
+    \end{tabularx}%
+    \endgroup%
+  }%
+  \newcommand{\studiewijzerKennen}{\multicolumn{2}{|l|}{\textbf{We kennen}}\\\hline}%
+%  \newcommand{\studiewijzerKennenItem}[1]{\multicolumn{2}{|p{\dimexpr(\textwidth-3\tabcolsep)}|}{\vspace{-\topsep}\begin{itemize}[noitemsep, nosep, leftmargin=1.5em]\item #1\end{itemize}\nointerlineskip}\\\hline}%
+  \newcommand{\studiewijzerKennenItem}[1]{\multicolumn{2}{|p{\dimexpr(\textwidth-3\tabcolsep)}|}{#1}\\\hline}%
+  \newcommand{\studiewijzerKunnen}{\textbf{We kunnen}&\textbf{Oefeningen}\\\hline}%
+  \newcommand{\studiewijzerKunnenItem}[2]{#1&#2\\\hline}%
+\fi
 
 % --------------------------------------------------------------------------
 % article various
