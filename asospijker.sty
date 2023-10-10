@@ -109,8 +109,8 @@
 \DeclareBoolOption[false]{dubbelzijdig}
 \DeclareComplementaryOption{enkelzijdig}{dubbelzijdig}
 
-\DeclareBoolOption[false]{hide}
-\DeclareComplementaryOption{show}{hide}
+\DeclareBoolOption[false]{verberg}
+\DeclareComplementaryOption{toon}{verberg}
 
 \DeclareBoolOption[true]{screen}
 \DeclareComplementaryOption{print}{screen}
@@ -199,6 +199,9 @@
 \usetikzlibrary{fadings}
 \usetikzlibrary{scopes}
 \usetikzlibrary{decorations.pathreplacing,decorations.markings,decorations.pathmorphing,decorations.shapes}
+
+% referencing (should be last)
+\RequirePackage{cleveref}
 
 % ==========================================================================
 % colors and common styles
@@ -777,12 +780,12 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \fi%
 }%
 
-\NewEnviron{vragen}[1][]{%
-    \noindent%
-    \begin{enumerate}[label={\arabic*.}, itemsep=1.8em, #1]%
-        \BODY%
-    \end{enumerate}%
-}%
+\newlist{vragen}{enumerate}{10}
+\setlist[vragen]{label*=\arabic*., itemsep=1.8em}
+
+\crefname{vrageni}{vraag}{vragen}
+\Crefname{vrageni}{Vraag}{Vragen}
+
 \newcommand{\vraag}[1][]{%
     \stepcounter{vragen}%
     \item%
@@ -798,11 +801,17 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     }%
 }
 
+%\newlist{deelvragen}{enumerate}{10}
+%\setlist[deelvragen]{itemsep=.6em}
+
+%\crefname{deelvrageni}{deelvraag}{deelvragen}
+%\Crefname{deelvrageni}{Deelvraag}{Deelvragen}
+
 \NewEnviron{deelvragen}[1][]{%
     \noindent%
-    \begin{enumerate}[itemsep=.6em, #1]%
+    \begin{vragen}[label=(\alph*), itemsep=.6em, #1]%  label*=\alph*. = hoofd + sublabel 
         \BODY%
-    \end{enumerate}%
+    \end{vragen}%
 }%
 \newcommand{\deelvraag}[1][]{%
     \item%
@@ -846,7 +855,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 \NewEnviron{antwoorden}{%
     \noindent%
-    \ifasospijker@hide
+    \ifasospijker@verberg
         \rotatebox[origin=c]{180}{%\scalebox{1}[-1]{%
         \noindent%
     \fi
@@ -855,7 +864,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
             \BODY%
         \end{theorem_answers}%
     \end{minipage}%
-    \ifasospijker@hide
+    \ifasospijker@verberg
         }%}%
     \fi
 }%
@@ -1134,23 +1143,31 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 % antwoord
 % ==========================================================================
 \NewEnviron{antwoord}[1][Antwoord]{%
-    \medskip%
-    \noindent%
-    {\color{spijker-blauw}{\sffamily\textbf{#1:}}\quad%
-        \BODY%
-    }%
-    \bigskip%
+    \ifasospijker@verberg
+         {}%
+    \else
+        \medskip%
+        \noindent%
+        {\color{spijker-blauw}{\sffamily\textbf{#1:}}\quad%
+            \BODY%
+        }%
+        \bigskip%
+    \fi
 }%
 \NewEnviron{antwoord*}{%
-    \medskip%
-    \noindent%
-    {\color{spijker-blauw}%
-        \BODY%
-    }%
-    \bigskip%
+    \ifasospijker@verberg
+         {}%
+    \else
+        \medskip%
+        \noindent%
+        {\color{spijker-blauw}%
+            \BODY%
+        }%
+        \bigskip%
+    \fi
 }%
 \newcommand{\antw}[1]{%
-    \ifasospijker@hide
+    \ifasospijker@verberg
         {}%
     \else
         {\color{spijker-blauw}#1}%
@@ -1296,10 +1313,26 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 % ==========================================================================
 % math
 % ==========================================================================
+
+\providecommand{\xbar}[1]{\bar{#1}}
 \providecommand{\abs}[1]{\left|#1\right|}
 \providecommand{\norm}[1]{\left\lVert#1\right\rVert}
+\providecommand{\sgn}[1]{\text{sgn}\left(#1\right)}
+\providecommand{\variance}[1]{\langle#1\rangle}
+\providecommand{\expectation}[1]{\langle#1\rangle}
+\providecommand{\diag}[1]{\operatorname{diag}\!\left(#1\right)}
+\providecommand{\diagentry}[1]{\makebox[3em]{$#1$}}
 \newcommand*\der{\mathrm{d}}
+
+\def\tang{\ThisStyle{\abovebaseline[0pt]{\scalebox{-1}{$\SavedStyle\perp$}}}}
+
 \newcommand*\g{9{,}81\,\text{m/s}^2}
+\renewcommand*\k{9{,}0\times10^{9}\,\dfrac{\text{N\,m}^2}{\text{C}^2}}
+\newcommand*\qElectron{-1{,}60\times10^{-19}\,\text{C}} % lading elektron
+\newcommand*\qProton{+1{,}60\times10^{-19}\,\text{C}} % lading proton
+\newcommand*\mElectron{9{,}11\times10^{-31}\,\text{kg}} % massa elektron
+\newcommand*\mProton{1{,}67\times10^{-27}\,\text{kg}} % massa proton
+\newcommand*\eV{1{,}6\times10^{-19}\,\text{J}} % 1eV
 \newcommand*\C{^\circ\text{C}}
 \newcommand*\JC{\tfrac{\text{J}}{\C}}
 \newcommand*\JkgC{\tfrac{\text{J}}{\text{kg}\,\C}}

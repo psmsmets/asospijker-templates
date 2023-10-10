@@ -31,7 +31,7 @@ Alle bovenstaande package-opties herdefiniëren de `\maketitle` functie.
 | `dubbelzijdig` | Asymmetrische marges voor dubbelzijdig printen en inbinden. |
 | `indent` | Laat paragrafen inspringen. Standaard is `noindent`. |
 | `print` | Veranderen kleuren in grijswaarden (niet bij afbeeldingen). Standaard is `screen`. |
-| `show` | Maak de `antwoorden` onderaan het document leesbaar. Standaard is `hide`. |
+| `verberg` | Verbergt `antwoord`, `antwoord*` en `antw` in het document en toont de `antwoorden` ondersteboven. Standaard is `toon`. |
 
 
 ## Voorgedefiniëerde vakken
