@@ -102,6 +102,8 @@
 \DeclareComplementaryOption{grm}{nogrm}
 \DeclareBoolOption[true]{nofb}  % formulebladen
 \DeclareComplementaryOption{fb}{nofb}
+\DeclareBoolOption[true]{geogebra} % GeoGebra 
+\DeclareComplementaryOption{nogeogebra}{geogebra}
 
 \DeclareBoolOption[true]{noindent}
 \DeclareComplementaryOption{indent}{noindent}
@@ -254,7 +256,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad}. Noteer overal duidelijk 
 
 \newcommand\toelichtingProefwerkWiskunde{%
   {\begin{itemize}[itemsep=.05em, leftmargin=.5cm, topsep=0pt]%
-    \item[--] Gebruik van je GRM is enkel toegelaten \textbf{ter controle} tenzij anders vermeld.%
+    \item[--] Gebruik van je \emph{GRM} \ifasospijker@geogebra en \emph{GeoGebra} \fi is enkel toegelaten \textbf{ter controle} tenzij anders vermeld.%
     \item[--] Los alle vragen algebra\"isch op en geef het exacte antwoord (bv. in een breuk) tenzij anders gevraagd.%
     \item[--] Wees volledig:  noteer altijd je \textbf{tussenstappen},%
               \textbf{enkel een uitkomst is \underline{niet} voldoende}.%
@@ -307,6 +309,9 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 \newcommand\cijfer[1]{\renewcommand\@cijfer{#1}}
 \newcommand\@cijfer{}
+
+\newcommand\resultaat[1]{\renewcommand\@resultaat{#1}}
+\newcommand\@resultaat{\@cijfer}
 
 \newcommand\datum[1]{\renewcommand\@datum{#1}}
 \newcommand\@datum{}
@@ -675,7 +680,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     Mijn voorbereidingstijd (\thickspace\ldots u \thickspace\ldots min) was & te kort & voldoende & te lang \\%
     Ik heb een schriftelijke voorbereiding gemaakt (van de theorie) & ja & nee & \\%
     Ik heb een aantal oefeningen op papier opnieuw gemaakt & ja, 5 of meer & ja, 2 tot 4 & nee, 1 of geen \\%
-    Ik verwacht \thickspace\ldots\ldots / \@cijfer\ als resultaat. & & & \\%
+    Ik verwacht \thickspace\ldots\ldots / \@resultaat\ als resultaat. & & & \\%
     \hline%
   \end{tabularx}%
 }
@@ -809,9 +814,15 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 \NewEnviron{deelvragen}[1][]{%
     \noindent%
-    \begin{vragen}[label=(\alph*), itemsep=.6em, #1]%  label*=\alph*. = hoofd + sublabel 
-        \BODY%
+    \begin{vragen}[label=(\alph*), itemsep=.5em, #1]%  label*=\alph*. = hoofd + sublabel 
+        \BODY\par\vspace{.5em}%
     \end{vragen}%
+}%
+\NewEnviron{deelvragen*}[1][]{%
+    \noindent%
+    \begin{enumerate*}[label=(\alph*), itemsep=.5em, #1]%  label*=\alph*. = hoofd + sublabel 
+        \BODY\par\vspace{.5em}%
+    \end{enumerate*}%
 }%
 \newcommand{\deelvraag}[1][]{%
     \item%
@@ -850,7 +861,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 \theoremstyle{theoremdd}
 
-\newtheorem*{theorem_answers}{Antwoorden}
+\newtheorem*{theorem_answers}{\sffamily Antwoorden}
 \surroundwithmdframed[style=ans]{theorem_answers}
 
 \NewEnviron{antwoorden}{%
@@ -1310,6 +1321,16 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 
 \tikzset{dot/.style={circle, inner sep=2pt, fill, label={#1}, name=#1}}
 
+% --------------------------------------------------------------------------
+% axis order
+
+\pgfplotsset{
+    /pgfplots/layers/Spijker/.define layer set={
+        axis background,axis grid,axis ticks,axis lines,axis tick labels,
+        axis descriptions,axis foreground,main
+    }{/pgfplots/layers/standard},
+}
+
 % ==========================================================================
 % math
 % ==========================================================================
@@ -1333,10 +1354,24 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 \newcommand*\mElectron{9{,}11\times10^{-31}\,\text{kg}} % massa elektron
 \newcommand*\mProton{1{,}67\times10^{-27}\,\text{kg}} % massa proton
 \newcommand*\eV{1{,}6\times10^{-19}\,\text{J}} % 1eV
-\newcommand*\C{^\circ\text{C}}
-\newcommand*\JC{\tfrac{\text{J}}{\C}}
-\newcommand*\JkgC{\tfrac{\text{J}}{\text{kg}\,\C}}
-\newcommand*\JkgK{\tfrac{\text{J}}{\text{kg\,K}}}
+\newcommand*\C{\,^\circ\text{C}}
+\newcommand*\J{\,\text{J}}
+\newcommand*\kJ{\,\text{kJ}}
+\newcommand*\K{\,\text{K}}
+\newcommand*\kg{\,\text{kg}}
+\newcommand*\mm{\,\text{mm}}
+\newcommand*\cm{\,\text{cm}}
+\newcommand*\dm{\,\text{dm}}
+\newcommand*\m{\,\text{m}}
+\newcommand*\km{\,\text{km}}
+\newcommand*\Pa{\,\text{Pa}}
+\newcommand*\hPa{\,\text{hPa}}
+\newcommand*\kPa{\,\text{kPa}}
+\newcommand*\JC{\,\tfrac{\J}{\C}}
+\newcommand*\JK{\,\tfrac{\J}{\K}}
+\newcommand*\Jkg{\,\tfrac{\J}{\kg}}
+\newcommand*\JkgC{\,\tfrac{\J}{\kg\,\C}}
+\newcommand*\JkgK{\,\tfrac{\J}{\kg\,\K}}
 
 
 % Syntax: \colorboxed[<color model>]{<color specification>}{<math formula>}
