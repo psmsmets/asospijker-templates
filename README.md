@@ -23,7 +23,7 @@ Ga naar de documentatie van de template voor
    - Download en installeer [MiKTeX](https://miktex.org/howto/install-miktex) via de officiële website. Kies bij de installatie voor de optie om alle pakketten automatisch te installeren als dat gevraagd wordt.
    
 2. **Download de template**:
-   - Download de template en plaats de map op een vaste locatie op je computer.
+   - [Download de template](https://github.com/psmsmets/asospijker-templates/archive/refs/heads/main.zip) en plaats de map op een vaste locatie op je computer.
 
 3. **Verplaats of kopieer bestanden naar de lokale TeX-map**:
    - Open Windows Verkenner en navigeer naar de map waar je de template hebt opgeslagen.
@@ -49,7 +49,7 @@ Ga naar de documentatie van de template voor
    - Download en installeer [TeX Live](https://tug.org/texlive/) voor MacOS.
 
 2. **Download de template**:
-   - Download de template en verplaats deze naar een plek waar de map kan blijven staan.
+   - [Download de template](https://github.com/psmsmets/asospijker-templates/archive/refs/heads/main.zip) en verplaats deze naar een plek waar de map kan blijven staan.
 
 3. **Verplaats of link de templates**:
    - Kopieer of maak een symlink naar `/Library/texmf/tex/latex/misc`:
