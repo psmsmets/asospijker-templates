@@ -896,6 +896,8 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   \newcommand{\studiewijzerKennenItem}[1]{\multicolumn{4}{|p{\dimexpr(\textwidth-3\tabcolsep)}|}{#1}\\\hline}%
   \newcommand{\studiewijzerKunnen}{\textbf{We kunnen}&\textbf{Klassikaal}&\textbf{PW}&\textbf{Extra}\\\hline}%
   \newcommand{\studiewijzerKunnenItem}[4]{#1&#2&#3&#4\\\hline}%
+  \newcommand{\studiewijzerOefeningen}{\multicolumn{4}{|l|}{\textbf{Oefeningen}}\\\hline}%
+  \newcommand{\studiewijzerOefeningenItem}[4]{#1&#2&#3&#4\\\hline}%
 \fi
 \ifasospijker@fysica
   \NewEnviron{studiewijzer}{%
@@ -908,10 +910,11 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
     \endgroup%
   }%
   \newcommand{\studiewijzerKennen}{\multicolumn{2}{|l|}{\textbf{We kennen}}\\\hline}%
-%  \newcommand{\studiewijzerKennenItem}[1]{\multicolumn{2}{|p{\dimexpr(\textwidth-3\tabcolsep)}|}{\vspace{-\topsep}\begin{itemize}[noitemsep, nosep, leftmargin=1.5em]\item #1\end{itemize}\nointerlineskip}\\\hline}%
   \newcommand{\studiewijzerKennenItem}[1]{\multicolumn{2}{|p{\dimexpr(\textwidth-3\tabcolsep)}|}{#1}\\\hline}%
-  \newcommand{\studiewijzerKunnen}{\textbf{We kunnen}&\textbf{Oefeningen}\\\hline}%
+  \newcommand{\studiewijzerKunnen}{\multicolumn{2}{|l|}{\textbf{We kunnen}}\\\hline}%
   \newcommand{\studiewijzerKunnenItem}[2]{#1&#2\\\hline}%
+  \newcommand{\studiewijzerOefeningen}{\multicolumn{2}{|l|}{\textbf{Oefeningen}}\\\hline}%
+  \newcommand{\studiewijzerOefeningenItem}[2]{#1&#2\\\hline}%
 \fi
 
 % --------------------------------------------------------------------------
@@ -1343,19 +1346,27 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 \providecommand{\expectation}[1]{\langle#1\rangle}
 \providecommand{\diag}[1]{\operatorname{diag}\!\left(#1\right)}
 \providecommand{\diagentry}[1]{\makebox[3em]{$#1$}}
+
 \newcommand*\der{\mathrm{d}}
+\newcommand*\dx{\der x}
+\newcommand*\dy{\der y}
+\newcommand*\dz{\der z}
+\newcommand*\ddx{\dfrac{\der}{\dx}}
 
 \def\tang{\ThisStyle{\abovebaseline[0pt]{\scalebox{-1}{$\SavedStyle\perp$}}}}
 
 \newcommand*\g{9{,}81\,\text{m/s}^2}
-\renewcommand*\k{9{,}0\times10^{9}\,\dfrac{\text{N\,m}^2}{\text{C}^2}}
-\newcommand*\qElectron{-1{,}60\times10^{-19}\,\text{C}} % lading elektron
-\newcommand*\qProton{+1{,}60\times10^{-19}\,\text{C}} % lading proton
+\renewcommand*\k{8{,}99\times10^{9}\,\dfrac{\text{N\,m}^2}{\text{C}^2}}
+\newcommand*\qElemen{1{,}60\times10^{-19}\,\text{C}} % lading proton
+\newcommand*\qElectron{-\qElemen} % lading elektron
+\newcommand*\qProton{+\qElemen} % lading proton
 \newcommand*\mElectron{9{,}11\times10^{-31}\,\text{kg}} % massa elektron
 \newcommand*\mProton{1{,}67\times10^{-27}\,\text{kg}} % massa proton
 \newcommand*\eV{1{,}6\times10^{-19}\,\text{J}} % 1eV
 \newcommand*\C{\,^\circ\text{C}}
 \newcommand*\J{\,\text{J}}
+\newcommand*\Hz{\,\text{Hz}}
+\newcommand*\s{\,\text{s}}
 \newcommand*\kJ{\,\text{kJ}}
 \newcommand*\K{\,\text{K}}
 \newcommand*\kg{\,\text{kg}}
@@ -1372,6 +1383,10 @@ strike out to/.style={shorten <=-.2em, shorten >=-.5em, overlay, semithick},
 \newcommand*\Jkg{\,\tfrac{\J}{\kg}}
 \newcommand*\JkgC{\,\tfrac{\J}{\kg\,\C}}
 \newcommand*\JkgK{\,\tfrac{\J}{\kg\,\K}}
+\renewcommand*\u{\,\text{u}}
+\newcommand*\MeV{\,\text{MeV}}
+\newcommand*\GeV{\,\text{GeV}}
+\newcommand*\MeVu{\,\dfrac{\text{MeV}}{\text{u}}}
 
 
 % Syntax: \colorboxed[<color model>]{<color specification>}{<math formula>}
