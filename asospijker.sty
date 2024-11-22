@@ -22,7 +22,7 @@
 % --------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
 
-\newcommand*\@asospijker@date{2024/11/17}
+\newcommand*\@asospijker@date{2024/11/21}
 \newcommand*\@asospijker@version{v0.3.3} % follows github's versioning!
 \newcommand*\@asospijker@description{ASO Spijker LaTeX article and beamer template}
 
@@ -116,6 +116,9 @@
 
 \DeclareBoolOption[true]{screen}
 \DeclareComplementaryOption{print}{screen}
+
+\DeclareBoolOption[true]{studiewijzerpw}
+\DeclareComplementaryOption{studiewijzer}{studiewijzerpw}
 
 \DeclareBoolOption[false]{puntenmarge}
 
@@ -882,7 +885,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
 
 % --------------------------------------------------------------------------
 % article studiewijzer
-\ifasospijker@wiskunde
+\ifasospijker@studiewijzerpw
   \NewEnviron{studiewijzer}{%
     \begingroup%
     \renewcommand*{\arraystretch}{1.5}%
@@ -898,8 +901,7 @@ Maak deze oefeningen altijd \textbf{op een apart blad} en steeds volgens de \tex
   \newcommand{\studiewijzerKunnenItem}[4]{#1&#2&#3&#4\\\hline}%
   \newcommand{\studiewijzerOefeningen}{\multicolumn{4}{|l|}{\textbf{Oefeningen}}\\\hline}%
   \newcommand{\studiewijzerOefeningenItem}[4]{#1&#2&#3&#4\\\hline}%
-\fi
-\ifasospijker@fysica
+\else
   \NewEnviron{studiewijzer}{%
     \begingroup%
     \renewcommand*{\arraystretch}{1.5}%
